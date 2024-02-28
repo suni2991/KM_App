@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import {CiRead, CiPen} from 'react-icons/ci'
 import {AiOutlineDelete} from 'react-icons/ai'
 
-const API = "http://52.44.231.112:6001/nominations";
+const API = "http://localhost:6001/nominations";
  
 
 function Training() {
@@ -79,7 +79,7 @@ function Training() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await fetch(`http://52.44.231.112:6001/nominations/${row._id}`, {
+          const response = await fetch(`http://localhost:6001/nominations/${row._id}`, {
             method: 'DELETE'
           });
   

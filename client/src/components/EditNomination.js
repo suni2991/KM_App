@@ -38,7 +38,7 @@ const EditNomination = () => {
 
   const fetchExistingDataForEditing = async () => {
     try {
-      const response = await fetch(`http://52.44.231.112:6001/nomination/${email}`);
+      const response = await fetch(`http://localhost:6001/nomination/${email}`);
       if (response.ok) {
         const nominationData = await response.json();
         const nextTraining = nominationData.trainings[0] || {};
@@ -102,7 +102,7 @@ const EditNomination = () => {
     const isoDate = selectedDate ? selectedDate.toISOString() : '';
     if (!duplicateTopicError) {
       try {
-        const response = await fetch(`http://52.44.231.112:6001/nominations/${email}`, {
+        const response = await fetch(`http://localhost:6001/nominations/${email}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

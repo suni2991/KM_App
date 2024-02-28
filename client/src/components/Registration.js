@@ -236,7 +236,7 @@ function Registration() {
     }
     const isValid = validateForm();
     if (isValid) {
-      const response = await fetch('http://52.44.231.112:6001/register/employee', {
+      const response = await fetch('http://localhost:6001/register/employee', {
         method: 'POST',
         body: JSON.stringify(formDataWithFullName),
         headers: {

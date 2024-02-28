@@ -14,7 +14,7 @@ function QuestionList() {
 
   const fetchQuestions = async () => {
     try {
-      const endpoint = `http://52.44.231.112:6001/questions/all/${selectedCategory}`;
+      const endpoint = `http://localhost:6001/questions/all/${selectedCategory}`;
       const response = await axios.get(endpoint);
       setQuestions(response.data);
       setSelectedCategoryCount(response.data.length);
@@ -44,7 +44,7 @@ function QuestionList() {
   
     if (result.isConfirmed) {
       try {
-        await axios.delete(`http://52.44.231.112:6001/question/${id}`);
+        await axios.delete(`http://localhost:6001/question/${id}`);
         fetchQuestions();
       } catch (error) {
         console.error('Error deleting question:', error);

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { CiRead, CiPen } from 'react-icons/ci'
 import { AiOutlineDelete } from 'react-icons/ai'
 
-const API = "http://52.44.231.112:6001/employee/assessment";
+const API = "http://localhost:6001/employee/assessment";
 
 function Admin() {
   const [selectedRows, setSelectedRows] = useState([]);
@@ -49,7 +49,7 @@ function Admin() {
     };
   
     try {
-      const res = await fetch("http://52.44.231.112:6001/user/exam", {
+      const res = await fetch("http://localhost:6001/user/exam", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -61,7 +61,7 @@ function Admin() {
       if (data.status === 401 || !data) {
         console.log("error");
       } else {
-        const updateRes = await fetch(`http://52.44.231.112:6001/employee/${rowData._id}`, {
+        const updateRes = await fetch(`http://localhost:6001/employee/${rowData._id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -138,7 +138,7 @@ function Admin() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const deleteRequests = selectedRows.map(row => fetch(`http://52.44.231.112:6001/admin/users/${row._id}`, {
+          const deleteRequests = selectedRows.map(row => fetch(`http://localhost:6001/admin/users/${row._id}`, {
             method: 'DELETE'
           }));
           await Promise.all(deleteRequests);

@@ -18,7 +18,7 @@ function Employees() {
   useEffect(() => {
     const fetchEmployeesUnderManager = async () => {
       try {
-        const response = await fetch(`http://52.44.231.112:6001/employees?mgrEmail=${managerEmail}`);
+        const response = await fetch(`http://localhost:6001/employees?mgrEmail=${managerEmail}`);
         const employeeList = await response.json();
         setData(employeeList);
         setEmployeeCount(employeeList.length);

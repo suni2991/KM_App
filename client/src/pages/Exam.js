@@ -28,7 +28,7 @@ const Exam = () => {
       } else {
         const endpoint = getEndpointForTopic();
         const response = await axios.get(endpoint);
-        const testCountResponse = await axios.get(`http://52.44.231.112:6001/employees/${auth._id}/topics/${currentTopic._id}`);
+        const testCountResponse = await axios.get(`http://localhost:6001/employees/${auth._id}/topics/${currentTopic._id}`);
         setTestCount(testCountResponse.data.testCount);
         setQuestions(response.data);
       }
@@ -65,39 +65,39 @@ const Exam = () => {
     if (userTopic) {
       switch (userTopic) {
         case 'HR':
-          return 'http://52.44.231.112:6001/questions/HR';
+          return 'http://localhost:6001/questions/HR';
           case 'Information Security':
-            return 'http://52.44.231.112:6001/question/informationSecurity';
+            return 'http://localhost:6001/question/informationSecurity';
         case 'Email Etiquette':
-          return 'http://52.44.231.112:6001/questions/emailEtiquette';
+          return 'http://localhost:6001/questions/emailEtiquette';
         case 'Telephone Etiquette':
-          return 'http://52.44.231.112:6001/questions/telephoneEtiquette';
+          return 'http://localhost:6001/questions/telephoneEtiquette';
         case 'Corporate Etiquette':
-          return 'http://52.44.231.112:6001/questions/corporateEtiquette';
+          return 'http://localhost:6001/questions/corporateEtiquette';
         case 'Code Of Conduct':
-          return 'http://52.44.231.112:6001/questions/codeOfConduct';
+          return 'http://localhost:6001/questions/codeOfConduct';
         case 'Feedback':
-          return 'http://52.44.231.112:6001/questions/feedback';
+          return 'http://localhost:6001/questions/feedback';
         case 'Acknowledgement & Empathy':
-          return 'http://52.44.231.112:6001/questions/acknowledgementEmpathy';
+          return 'http://localhost:6001/questions/acknowledgementEmpathy';
         case 'Values':
-          return 'http://52.44.231.112:6001/questions/values';
+          return 'http://localhost:6001/questions/values';
         case 'Unconscious Bias':
-          return 'http://52.44.231.112:6001/questions/unconsciousBias';
+          return 'http://localhost:6001/questions/unconsciousBias';
         case 'Grammar & Punctuation':
-          return 'http://52.44.231.112:6001/questions/grammarPunctuation';
+          return 'http://localhost:6001/questions/grammarPunctuation';
         case 'Response vs Reaction':
-          return 'http://52.44.231.112:6001/questions/responseReaction';
+          return 'http://localhost:6001/questions/responseReaction';
         case 'Confidence Hacks':
-          return 'http://52.44.231.112:6001/questions/confidenceHacks';
+          return 'http://localhost:6001/questions/confidenceHacks';
         case 'Parts of Speech':
-            return 'http://52.44.231.112:6001/questions/partsOfSpeech';
+            return 'http://localhost:6001/questions/partsOfSpeech';
         case 'Dress code Policy':
-            return 'http://52.44.231.112:6001/question/dressCodePolicy';
+            return 'http://localhost:6001/question/dressCodePolicy';
         case 'Social Media Policy':
-            return 'http://52.44.231.112:6001/question/socialMediaPolicy';
+            return 'http://localhost:6001/question/socialMediaPolicy';
         case 'Others':
-          return 'http://52.44.231.112:6001/questions/others';
+          return 'http://localhost:6001/questions/others';
         default:
           throw new Error(`Invalid topic: ${userTopic}`);
       }
@@ -158,7 +158,7 @@ const updateScore = async () => {
     if (userTopic) {
       const topicObj = auth.topics.find((topic) => topic.topic === userTopic);
       const topicId = topicObj._id;
-      const endpoint = `http://52.44.231.112:6001/employees/${auth._id}/topics/${topicId}`;
+      const endpoint = `http://localhost:6001/employees/${auth._id}/topics/${topicId}`;
       console.log('Endpoint:', endpoint); 
 
       await axios.put(endpoint, {
@@ -207,10 +207,10 @@ const updateScore = async () => {
 //     if (userTopic) {
 //       const topicObj = auth.topics.find((topic) => topic.topic === userTopic);
 //       const topicId = topicObj._id;
-//       const endpoint = `http://52.44.231.112:6001/employees/${auth._id}/topics/${topicId}`;
+//       const endpoint = `http://localhost:6001/employees/${auth._id}/topics/${topicId}`;
 //       console.log('Endpoint:', endpoint); 
 
-//       await axios.put(`http://52.44.231.112:6001/employees/${auth._id}/topics/${topicId}`, {
+//       await axios.put(`http://localhost:6001/employees/${auth._id}/topics/${topicId}`, {
 //         score: totalScore,
 //         testCount: testCount,
 //       });
@@ -226,7 +226,7 @@ const updateScore = async () => {
     try {
       const result = score >= passingScore ? 'Passed' : 'Failed';
 
-      const response = await axios.post("http://52.44.231.112:6001/score/employee", {
+      const response = await axios.post("http://localhost:6001/score/employee", {
         fullName,
         email,
         topic,
@@ -289,7 +289,7 @@ const updateScore = async () => {
   const sendEmailToManager = async (fullName, mgrEmail, mgrName, topic, score) => {
     try {
       const result = score >= passingScore ? 'Passed' : 'Failed';
-      const response = await axios.post("http://52.44.231.112:6001/score/manager", {
+      const response = await axios.post("http://localhost:6001/score/manager", {
         fullName,
         mgrEmail,
         mgrName,

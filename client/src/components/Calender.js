@@ -135,7 +135,7 @@ const Calender = () => {
   
       if (registeredEmployeeIndex === -1) {
         // New registration
-        fetch('http://52.44.231.112:6001/add/nominations', {
+        fetch('http://localhost:6001/add/nominations', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -181,7 +181,7 @@ const Calender = () => {
           });
       } else {
         // Existing registration update
-        fetch('http://52.44.231.112:6001/update/nominations', {
+        fetch('http://localhost:6001/update/nominations', {
           method: 'PUT', 
           headers: {
             'Content-Type': 'application/json',

@@ -30,7 +30,7 @@ function Edit() {
   useEffect(() => {
     const fetchEmployee = async () => {
       try {
-        const response = await fetch(`http://52.44.231.112:6001/employee/${id}`);
+        const response = await fetch(`http://localhost:6001/employee/${id}`);
         const data = await response.json();
         if (response.ok) {
           setEmployee(data.data);
@@ -176,7 +176,7 @@ function Edit() {
       }
   
       try {
-        const result = await axios.put(`http://52.44.231.112:6001/employee/${id}`, formDataToUpdate);
+        const result = await axios.put(`http://localhost:6001/employee/${id}`, formDataToUpdate);
         if (formData.category === 'Assessment') {
           navigate('/admin');
         } else if (formData.category === 'Induction') {

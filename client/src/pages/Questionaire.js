@@ -13,39 +13,39 @@ function Questionaire() {
   const getEndpointForTopic = () => {
     switch (selectedTopic) {
       case 'HR':
-        return 'http://52.44.231.112:6001/question/HR';
+        return 'http://localhost:6001/question/HR';
       case 'Information Security':
-          return 'http://52.44.231.112:6001/question/informationSecurity';
+          return 'http://localhost:6001/question/informationSecurity';
       case 'Email Etiquette':
-        return 'http://52.44.231.112:6001/question/emailEtiquette';
+        return 'http://localhost:6001/question/emailEtiquette';
       case 'Telephone Etiquette':
-        return 'http://52.44.231.112:6001/question/telephoneEtiquette';
+        return 'http://localhost:6001/question/telephoneEtiquette';
       case 'Corporate Etiquette':
-        return 'http://52.44.231.112:6001/question/corporateEtiquette';
+        return 'http://localhost:6001/question/corporateEtiquette';
       case 'Code Of Conduct':
-        return 'http://52.44.231.112:6001/question/codeOfConduct';
+        return 'http://localhost:6001/question/codeOfConduct';
       case 'Feedback':
-        return 'http://52.44.231.112:6001/question/feedback';
+        return 'http://localhost:6001/question/feedback';
       case 'Acknowledgement & Empathy':
-        return 'http://52.44.231.112:6001/question/acknowledgementEmpathy';
+        return 'http://localhost:6001/question/acknowledgementEmpathy';
       case 'Values':
-        return 'http://52.44.231.112:6001/question/values';
+        return 'http://localhost:6001/question/values';
       case 'Unconscious Bias':
-        return 'http://52.44.231.112:6001/question/unconsciousBias';
+        return 'http://localhost:6001/question/unconsciousBias';
       case 'Grammar & Punctuation':
-        return 'http://52.44.231.112:6001/question/grammarPunctuation';
+        return 'http://localhost:6001/question/grammarPunctuation';
       case 'Response vs Reaction':
-        return 'http://52.44.231.112:6001/question/responseReaction';
+        return 'http://localhost:6001/question/responseReaction';
       case 'Confidence Hacks':
-        return 'http://52.44.231.112:6001/question/confidenceHacks';
+        return 'http://localhost:6001/question/confidenceHacks';
       case 'Parts of Speech':
-          return 'http://52.44.231.112:6001/question/partsOfSpeech';
+          return 'http://localhost:6001/question/partsOfSpeech';
       case 'Dress code Policy':
-            return 'http://52.44.231.112:6001/question/dressCodePolicy';
+            return 'http://localhost:6001/question/dressCodePolicy';
       case 'Social Media Policy':
-              return 'http://52.44.231.112:6001/question/socialMediaPolicy';
+              return 'http://localhost:6001/question/socialMediaPolicy';
       case 'Others': 
-          return 'http://52.44.231.112:6001/question/others';  
+          return 'http://localhost:6001/question/others';  
       default:
         throw new Error(`Invalid topic: ${selectedTopic}`);
     }

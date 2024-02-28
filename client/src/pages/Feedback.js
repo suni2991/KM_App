@@ -5,7 +5,7 @@ import {FiDownload} from 'react-icons/fi'
 import Modal from 'react-modal';
 
 
-const API = "http://52.44.231.112:6001/employee/induction";
+const API = "http://localhost:6001/employee/induction";
 Modal.setAppElement('#root'); 
 
 function Feedback() {
@@ -25,7 +25,7 @@ function Feedback() {
   };
 
   useEffect(() => {
-    fetch('http://52.44.231.112:6001/employee/induction')
+    fetch('http://localhost:6001/employee/induction')
       .then(response => response.json())
       .then(data => {
         // Sort the data by createdAt timestamp or any other unique identifier in descending order

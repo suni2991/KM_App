@@ -26,7 +26,7 @@ function Home() {
       password,
 
     };
-    let baseURL = "http://52.44.231.112:6001/api/login"
+    let baseURL = "http://localhost:6001/api/login"
 
     axios.post(baseURL, credentials).then((response) => {
 

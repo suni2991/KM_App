@@ -279,7 +279,7 @@
                                                             
                                                               </span></p>
                                                               <h3>Please click this link below and login with your credentials</h3>
-                                                              <a href="http://52.44.231.112:3001/">Login Here</a>     
+                                                              <a href="http://localhost:3001/">Login Here</a>     
                                                               <br />
                                                               <br />
                                                               <p>In case of any concerns, reach out to your respecitve HR</p>
