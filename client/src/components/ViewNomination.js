@@ -17,7 +17,7 @@ function ViewNomination() {
   const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
-    fetch(`http://52.44.231.112:6001/nomination/${email}`)
+    fetch(`http://localhost:6001/nomination/${email}`)
       .then(response => response.json())
       .then(data => {
         console.log('Fetched Nomination Data:', data);
@@ -62,7 +62,7 @@ function ViewNomination() {
       ...nominationData,
       trainings: updatedTrainings,
     });
-    fetch(`http://52.44.231.112:6001/nominations/${nominationData._id}/trainings/${trainingId}`, {
+    fetch(`http://localhost:6001/nominations/${nominationData._id}/trainings/${trainingId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ function ViewNomination() {
   };
 
   const handleDeleteTraining = (trainingId) => {
-    fetch(`http://52.44.231.112:6001/nominations/${nominationData._id}/trainings/${trainingId}`, {
+    fetch(`http://localhost:6001/nominations/${nominationData._id}/trainings/${trainingId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

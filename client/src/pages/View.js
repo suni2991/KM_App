@@ -34,7 +34,7 @@ function View() {
           try {
             // Proceed with resetting the score
             const response = await axios.put(
-              `http://52.44.231.112:6001/employee/${id}/resetScore`,
+              `http://localhost:6001/employee/${id}/resetScore`,
               {
                 topicId: topicToUpdate._id,
                 newScore: -1,
@@ -93,7 +93,7 @@ function View() {
   useEffect(() => {
     const fetchEmployee = async () => {
       try {
-        const response = await fetch(`http://52.44.231.112:6001/employee/${id}`);
+        const response = await fetch(`http://localhost:6001/employee/${id}`);
         const data = await response.json();
         if (response.ok) {
           setEmployee(data.data);
@@ -156,7 +156,7 @@ function View() {
           try {
             // Send a DELETE request to the backend endpoint
             const response = await axios.delete(
-              `http://52.44.231.112:6001/employee/${id}/topic/${topicId}`
+              `http://localhost:6001/employee/${id}/topic/${topicId}`
             );
 
             if (response.status === 200) {

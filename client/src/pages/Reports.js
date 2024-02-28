@@ -4,14 +4,14 @@ import * as XLSX from 'xlsx';
 import CustomStyles from '../components/CustomStyles';
 import {FiDownload} from 'react-icons/fi'
 
-const API = "http://52.44.231.112:6001/employee/assessment";
+const API = "http://localhost:6001/employee/assessment";
 
 function Reports() {
   const [data, setData] = useState([])
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   useEffect(() => {
-    fetch('http://52.44.231.112:6001/employee/assessment')
+    fetch('http://localhost:6001/employee/assessment')
       .then(response => response.json())
       .then(data => {
         setData(data);

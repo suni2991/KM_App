@@ -19,7 +19,7 @@ function Nominations() {
 
  const fetchNominations = async () => {
   try {
-    const response = await fetch(`http://52.44.231.112:6001/nominations/${auth.email}`);
+    const response = await fetch(`http://localhost:6001/nominations/${auth.email}`);
     if (response.ok) {
       const nominationsData = await response.json();
       setData(nominationsData);
@@ -70,7 +70,7 @@ useEffect(() => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await fetch(`http://52.44.231.112:6001/nominations/${row._id}`, {
+          const response = await fetch(`http://localhost:6001/nominations/${row._id}`, {
             method: 'DELETE'
           });
   

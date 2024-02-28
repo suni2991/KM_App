@@ -131,7 +131,7 @@ const FeedbackForm = () => {
     const employeeId = auth._id; 
 
 
-    fetch(`http://52.44.231.112:6001/employee/${employeeId}`)
+    fetch(`http://localhost:6001/employee/${employeeId}`)
       .then((response) => response.json())
       .then((data) => {
        
@@ -151,7 +151,7 @@ const FeedbackForm = () => {
       }
       const updatedEmployeeData = { ...data.data, feedbacks: feedbacksArray, topics: topicsArray };
         
-        return fetch(`http://52.44.231.112:6001/employee/${employeeId}`, {
+        return fetch(`http://localhost:6001/employee/${employeeId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

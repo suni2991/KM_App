@@ -5,7 +5,7 @@ import {AiOutlineDelete} from 'react-icons/ai'
 import CustomStyles from '../components/CustomStyles';
 
 
-const API = "http://52.44.231.112:6001/employee/manager";
+const API = "http://localhost:6001/employee/manager";
  
 
 function Managers () {
@@ -68,7 +68,7 @@ function Managers () {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await fetch(`http://52.44.231.112:6001/admin/users/${row._id}`, {
+          const response = await fetch(`http://localhost:6001/admin/users/${row._id}`, {
             method: 'DELETE'
           });
   

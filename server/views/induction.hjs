@@ -290,9 +290,9 @@
                                                               <br/>
                                                               
                                                               
-                                                              {{!-- <button><a href="http://52.44.231.112:3001/feedback">Feedback</a></button>     --}}
-                                                              {{!-- <button onclick="window.location.href='http://52.44.231.112:3001/feedback'">Feedback</button> --}}
-                                                              <a href="http://52.44.231.112:3001/feedback">
+                                                              {{!-- <button><a href="http://localhost:3001/feedback">Feedback</a></button>     --}}
+                                                              {{!-- <button onclick="window.location.href='http://localhost:3001/feedback'">Feedback</button> --}}
+                                                              <a href="http://localhost:3001/feedback">
   <button>Feedback</button>
 </a>
                                                               <br />

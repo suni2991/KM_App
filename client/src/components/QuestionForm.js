@@ -27,7 +27,7 @@ function QuestionForm({ onSubmit, getEndpointForTopic }) {
     };
     
 
-    const endpoint = `http://52.44.231.112:6001/question/${question_Id}`;
+    const endpoint = `http://localhost:6001/question/${question_Id}`;
     axios.put(endpoint, updatedQuestion,{
       headers: {
         'Content-Type': 'application/json', // Set the appropriate content type

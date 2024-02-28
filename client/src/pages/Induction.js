@@ -7,7 +7,7 @@ import {AiOutlineDelete} from 'react-icons/ai'
 import CustomStyles from '../components/CustomStyles';
 
 
-const API = "http://52.44.231.112:6001/employee/induction";
+const API = "http://localhost:6001/employee/induction";
  
 
 function Induction() {
@@ -33,7 +33,7 @@ const navigate = useNavigate();
   //     topic: topic.topic,
   //     presenter: topic.presenter
   //   }));
-  //   const res = await fetch("http://52.44.231.112:6001/user/induction", {
+  //   const res = await fetch("http://localhost:6001/user/induction", {
   //     method: "POST",
   //     headers: {
   //       "Content-Type": "application/json"
@@ -46,7 +46,7 @@ const navigate = useNavigate();
   //   if (data.status === 401 || !data) {
   //     console.log("error")
   //   } else {
-  //     const updateRes = await fetch(`http://52.44.231.112:6001/employee/${rowData._id}`, {
+  //     const updateRes = await fetch(`http://localhost:6001/employee/${rowData._id}`, {
   //       method: "PUT",
   //       headers: {
   //         "Content-Type": "application/json"
@@ -82,7 +82,7 @@ const navigate = useNavigate();
     };
   
     try {
-      const res = await fetch("http://52.44.231.112:6001/user/induction", {
+      const res = await fetch("http://localhost:6001/user/induction", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -94,7 +94,7 @@ const navigate = useNavigate();
       if (data.status === 401 || !data) {
         console.log("error");
       } else {
-        const updateRes = await fetch(`http://52.44.231.112:6001/employee/${rowData._id}`, {
+        const updateRes = await fetch(`http://localhost:6001/employee/${rowData._id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -174,7 +174,7 @@ const navigate = useNavigate();
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const deleteRequests = selectedRows.map(row => fetch(`http://52.44.231.112:6001/admin/users/${row._id}`, {
+          const deleteRequests = selectedRows.map(row => fetch(`http://localhost:6001/admin/users/${row._id}`, {
             method: 'DELETE'
           }));
           await Promise.all(deleteRequests);
