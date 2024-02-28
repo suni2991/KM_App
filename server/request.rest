@@ -1,0 +1,11 @@
+POST http://52.44.231.112:6001/register/employee
+Content-Type: application/json
+
+{
+    "firstName" : "admin",
+    "lastName" : "admin",
+    "email" : "admin@enfuse-solutions.com",
+    "password": "RAM@12345",
+    "confirmPassword": "RAM@12345",
+    "role": "Admin"
+}
