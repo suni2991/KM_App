@@ -1,0 +1,220 @@
+.card-edit {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:center;
+  align-items: center;
+  padding: 50px;
+  box-shadow: 10px 10px 10px 10px lightgray;
+  margin:0 auto;
+  margin-top: 100px;
+  width:fit-content;
+  border-radius: 2rem;
+  
+}
+.card-edit2 {
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  padding: 30px;
+  box-shadow: 6px 8px 8px 10px rgb(233, 231, 231);
+  margin:25px auto;
+  height: 70%;
+  background: #fff;
+  border-radius: 2rem;
+}
+
+@media screen and (max-width:480px){
+  .card-edit2 {
+    display: block !important;
+    height: 400px !important;
+    overflow: scroll;
+    padding: 20px !important;
+  }
+  .button-container2{
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center !important;
+  }
+
+  .rebel{
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .rebel input{
+    width: 80% !important;
+    margin-bottom: 5px !important;
+  }
+
+  .rebel select{
+    width: 81% !important;
+    margin-bottom: 5px !important;
+  }
+  .rebel label{
+    margin-bottom: 5px !important;
+  }
+
+  .edit-form1{
+    width: 100% !important;
+  }
+  .edit-form2{
+    width: 100% !important;
+  }
+}
+
+@media screen and (min-width:480px) and (max-width:768px){
+  .card-edit2 {
+    display: block !important;
+    height: 400px !important;
+    padding: 20px !important;
+    overflow: scroll;
+  }
+  .button-container2{
+    display: flex !important;
+    justify-content: space-around !important;
+    width: 100% !important;
+  }
+  .button-container2 .submit-button{
+    display: flex !important;
+    justify-content: center !important;
+    margin: 10px 0px !important;
+   }
+
+   .rebel{
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .rebel input{
+    width: 90% !important;
+    margin-bottom: 5px !important;
+  }
+
+  .rebel select{
+    width: 91% !important;
+    margin-bottom: 5px !important;
+  }
+  .rebel label{
+    margin-bottom: 5px !important;
+  }
+
+  .edit-form1{
+    width: 100% !important;
+  }
+  .edit-form2{
+    width: 100% !important;
+  }
+  
+}
+
+.card-edit-image {
+  flex-basis: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+   
+ 
+}
+
+.card-edit-image img {
+  width: 40%;
+  padding-top: 20px;
+
+
+  /* height: auto; */
+ 
+}
+
+.card-edit {
+   flex-basis: 49%;
+  box-sizing: border-box; 
+  padding:  20px;
+  width: 60%;
+  overflow:hidden;
+}
+.card-edit2 {
+  flex-basis: 49%;
+ box-sizing: border-box; 
+ padding:  20px;
+ width: 92%;
+}
+.button-container2{
+  /* margin-top: 10px; */
+  display: flex;
+  justify-content: space-around;
+  /* width: 100%; */
+}
+.button-container2 .submit-button{
+ display: flex;
+ justify-content: center;
+ margin: 10px 40px;
+}
+.back-button-container{
+display: flex;
+justify-content:space-evenly;
+
+}
+
+.card-edit .img-fluid{
+  width: 60%;
+  float: right;
+}
+.card-edit-image-info{
+width:50%;
+
+
+}
+.card-edit-image-info p b{
+font-weight: bold;
+}
+.card-edit-image-info h1{
+font-size: 30px;
+font-weight: bold;
+}
+.card-edit-image2{
+width: 100%;
+/* padding-top: 100px; */
+padding-right:20px;
+
+}
+.card-edit-image2 img{
+height: 80%;
+width: 80%;
+margin-left:10px;
+
+}
+/* .card-edit-form2 label{
+font-size: 20px;
+} */
+
+.rebel{
+display: flex;
+flex-direction: row;
+}
+.edit-form1{
+width: 50%;
+}
+.edit-form2{
+width: 50%;
+}
+
+.rebel input{
+width: 90% !important;
+margin-bottom: 5px !important;
+}
+
+.rebel select{
+width: 91% !important;
+margin-bottom: 5px !important;
+}
+.rebel label{
+margin-bottom: 5px;
+}
+
+.edit-form3 input{
+width: 96%;
+}
+
+.edit-form3 select{
+width: 96% !important;
+}

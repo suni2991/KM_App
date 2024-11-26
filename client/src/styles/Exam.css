@@ -1,0 +1,249 @@
+.click-finish .redirect{
+  padding: 10px 20px 5px 32px ;
+  margin: 25px 0px 25px 200px;
+  width: 40%;
+}
+.quiz-container {
+  height: auto;
+  width: 60%;
+  background: #fff;
+  border-radius: 2rem;
+  margin: 50px auto;
+  padding: 15px 60px;
+  box-shadow: 0px 5px 6px 4px rgb(63, 63, 63);
+  overflow-y: scroll;
+}
+
+.quiz-container::-webkit-scrollbar {
+  width: 0; /* Hide scrollbar width */
+}
+
+.quiz-container .timer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.options{
+    border-color: #00B4D2;
+    box-shadow: 0 0 5px #2f32332b;
+    border-radius: 15px;
+    display: inline-flex;
+    width: 90%;
+    /* padding-left: 15px; */
+    margin: 5px 0px 5px 20px;
+}
+
+.quiz-container h4{
+  font-weight: bold;
+  color: #00B4D2;
+}
+.quiz-container h3{
+  padding: 15px;
+  font-weight: bold;
+}
+
+.quiz-container input[type="radio"] {
+  margin-left: 15px;
+  padding: 5px;
+  font-size: 16px;
+  background-color: #00B4D2;
+}
+
+
+
+.quiz-container input {
+  text-decoration: none;
+  list-style: none;
+  color: #2d264b;
+  background: #823131;
+  border: 1px solid #eaeaea;
+  border-radius: 16px;
+  padding: 5px 0px 5px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.que h1{
+  margin: 0 auto !important;
+  color:#800080;
+  /* background: #00B4D2; */
+  width: 50%;
+  padding: 10px;
+  border-radius: 1em;
+  align-items: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+
+
+.quiz-container button:disabled {
+  background: #bebebe;
+  color: #020542dc;
+  cursor: not-allowed;
+  visibility: visible;
+  
+}
+
+/* .flex-right {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+} */
+
+
+
+@media (max-width: 479px) { 
+  .quiz-container {
+    height: 80%;
+    width: 80%;
+    /* margin: 50px; */
+    padding: 15px 15px;
+    margin: 50px 0px 55px 0px;
+  }
+
+  .quiz-container ul li {
+    padding-left: 15px;
+  }
+
+  .quiz-container button {
+    /* padding-left: 44px; */
+    margin-right: 0px;
+    margin-top: 10px;
+    width: 80%;
+    background: linear-gradient(rgb(8, 8, 68), #15f7f7, rgb(8, 8, 68));
+  }
+
+  .flex-right {
+    width: 50%;
+    margin: auto;
+    justify-content: center;
+    display: flex;
+  }
+  .quiz-container  h1 {
+    font-size: 16px;
+  }
+
+  .quiz-container  h2 {
+    font-size: 12px !important;
+    font-weight: bold;
+  }
+}
+
+/* Tablet View */
+@media (min-width: 480px) and (max-width: 768px) { 
+  .quiz-container {
+    height: 80%;
+    width: 80%;
+    margin-top: 50px;
+    padding: 15px 13px;
+    margin: 50px auto;
+  }
+  .quiz-container ul li {
+    padding-left: 15px;
+  }
+
+  .quiz-container button {
+    /* padding-left: 55px; */
+    margin-right: 0px;
+    margin-top: 10px;
+    width: 50%;
+    background: linear-gradient(rgb(8, 8, 68), #15f7f7, rgb(8, 8, 68));
+  }
+
+  .flex-right {
+    width: 50%;
+    margin: auto;
+    justify-content: center;
+    display: flex;
+  }
+
+  .quiz-container h1 {
+    font-size: 22px;
+  }
+
+  .quiz-container   h2 {
+    font-size: 16px !important;
+    font-weight: bold;
+  }
+}
+
+.quiz-container h2{
+  font-size: 18px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.back-button-container.Exam_btn {
+  display: flex;
+  justify-content: center;
+}
+.que-container.Quez_container {
+  width: 100%;
+  background: white;
+}
+.que.exam_h h1 {
+  width: 100%;
+}
+.main_Exam_control {
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  overflow-x: inherit;
+  background: linear-gradient(rgb(8, 8, 68), #15f7f7, rgb(8, 8, 68));
+}
+@media (max-width: 767px){
+  .quiz-container {
+  height: 80%;
+  width: 80%;
+  margin:40px auto;
+  overflow: scroll;
+}
+.que h1 {
+  width: 95% !important;
+  margin: auto;
+}
+.ans-options {
+  display: flex;
+  align-items: center;
+}
+.que-container.Quez_container {
+  width: 95%;
+}
+
+.main_Exam_control {
+  position: relative;
+  overflow: hidden;
+  overflow-y: scroll;
+  height: 100%;
+  background: linear-gradient(rgb(8, 8, 68), #15f7f7, rgb(8, 8, 68));
+}
+
+
+}
+
+/* .main_Exam_control .send-button {
+  margin: 20px 0;
+  padding: 5px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  background: linear-gradient(rgb(8, 8, 68), #15f7f7, rgb(8, 8, 68));
+  color: #fff;
+  cursor: pointer;
+  width: 20%;
+} */
+
+@media (min-width: 768px) and (max-width: 2000px) { 
+  .main_Exam_control .send-button {
+    margin: 20px 0;
+    padding: 5px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    background: linear-gradient( #15f7f7, rgb(8, 8, 68),);
+    color: #fff;
+    cursor: pointer;
+    width: 20%;
+  }
+}
