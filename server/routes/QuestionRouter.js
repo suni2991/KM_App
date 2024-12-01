@@ -45,6 +45,25 @@ questionRouter.post(
   }
 );
 
+questionRouter.get('/questions/all/:category', async (req, res) => {
+  const { category } = req.params;
+  const { deleted } = req.query; // Get the deleted parameter from query string
+
+  try {
+    // Parse deleted parameter to boolean if present
+    const filter = { topic: category };
+    if (deleted !== undefined) {
+      filter.deleted = deleted === 'true';
+    }
+
+    const questions = await Questionaire.find(filter);
+    res.status(200).json(questions);
+  } catch (error) {
+    console.error('Error fetching questions:', error);
+    res.status(500).json({ error: 'Internal server error for category' });
+  }
+});
+
 questionRouter.get("/questions/all/:topic", authenticate, async (req, res) => {
   try {
     const { topic } = req.params;
@@ -66,6 +85,27 @@ questionRouter.get("/questions/all/:topic", authenticate, async (req, res) => {
   } catch (error) {
     console.error("Failed to fetch questions:", error);
     res.status(500).json({ error: "Failed to fetch questions" });
+  }
+});
+
+// Get a single question by ID
+questionRouter.get('/question/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find the question by ID
+    const question = await Questionaire.findById(id);
+
+    // If no question is found, return a 404 response
+    if (!question) {
+      return res.status(404).json({ message: 'Question not found' });
+    }
+
+    // Return the question
+    res.json(question);
+  } catch (error) {
+    console.error('Failed to fetch question:', error);
+    res.status(500).json({ error: 'Failed to fetch question' });
   }
 });
 
@@ -124,7 +164,7 @@ questionRouter.put(
   async (req, res) => {
     try {
       const { id } = req.params;
-      const { question, options, correctAnswer, mark, createdAt } = req.body;
+      const { question, options, correctAnswer, mark, createdAt, deleted } = req.body;
 
       const image = req.file ? req.file.filename : null;
       const updatedQuestion = {};
@@ -135,6 +175,7 @@ questionRouter.put(
       if (mark) updatedQuestion.mark = mark;
       if (createdAt) updatedQuestion.createdAt = createdAt;
       if (image) updatedQuestion.image = image;
+      if (deleted !== undefined) updatedQuestion.deleted = deleted;
 
       const updatedQuestionResult = await Questionaire.findByIdAndUpdate(
         id,
@@ -152,5 +193,8 @@ questionRouter.put(
     }
   }
 );
+
+
+
 
 module.exports = questionRouter;

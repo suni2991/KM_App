@@ -22,20 +22,27 @@ settingsRouter.post("/saveData", authenticate, async (req, res) => {
     let settingsData;
     if (topic && category) {
       const existingTopic = await Settings.findOne({ topic, category });
+      // if (existingTopic) {
+      //   // If the topic already exists in the same category, handle the update or merge logic
+      //   console.log("Topic already exists in the same category, handle update or merge.");
+      //   // Example of updating existing entry
+      //   existingTopic.selectedOption = selectedOption;
+      //   existingTopic.mgrName = mgrName;
+      //   existingTopic.mgrEmail = mgrEmail;
+      //   existingTopic.presenter = presenter;
+      //   existingTopic.department = department;
+      //   existingTopic.subtopics = subtopics;
+
+      //   settingsData = await existingTopic.save();
+      // } 
       if (existingTopic) {
-        // If the topic already exists in the same category, handle the update or merge logic
-        console.log("Topic already exists in the same category, handle update or merge.");
-        // Example of updating existing entry
-        existingTopic.selectedOption = selectedOption;
-        existingTopic.mgrName = mgrName;
-        existingTopic.mgrEmail = mgrEmail;
-        existingTopic.presenter = presenter;
-        existingTopic.department = department;
-        existingTopic.subtopics = subtopics;
-        
-        settingsData = await existingTopic.save();
+        // const error = new Error("Duplicate entry detected.");
+        // error.status = 409;
+        // throw error;
+        console.log("Duplicate entry detected.");
+        return res.status(409).json({ message: "Duplicate entry detected." });
+
       } else {
-        // If it's a new entry, create a new document
         settingsData = new Settings({
           selectedOption,
           mgrName,
@@ -46,26 +53,60 @@ settingsRouter.post("/saveData", authenticate, async (req, res) => {
           department,
           subtopics,
         });
-
+  
         settingsData = await settingsData.save();
+        return res.status(201).json(settingsData);
       }
-    } else {
-      // Handle cases where topic or category might not be provided (optional handling)
-      settingsData = new Settings({
-        selectedOption,
-        mgrName,
-        mgrEmail,
-        presenter,
-        category,
-        topic,
-        department,
-        subtopics,
-      });
+    } //else {
 
-      settingsData = await settingsData.save();
-    }
+      
 
-    res.status(201).json(settingsData);
+
+      // console.log("Duplicate entry detected.");
+      // return res.status(409).json({ message: "Duplicate entry detected." });
+
+      // res.setHeader("Content-Type", "application/json");
+      // res.status(409).json({ message: "Duplicate entry detected." });
+      // res.end();
+
+      // const error = new Error("Duplicate entry detected.");
+      // error.status = 409;
+      // throw error;
+
+
+      // return res.status(409).json({
+      //   success: false,
+      //   error: "Duplicate entry",
+      //   message: "This entry already exists in the database.",
+      // });
+
+
+      // console.log("Duplicate entry detected. Sending 409 response.");
+      // try {
+      //   return res.status(409).json({ message: "Duplicate entry detected." });
+      // } catch (error) {
+      //   console.error("Error in else block:", error);
+      //   return res.status(500).json({ message: "Internal Server Error", error: error.message });
+      // }
+
+      // return res.status(409).json({ message: "Duplicate entry detected." });
+      // throw new Error("Topic already exists.");
+    //}
+    // Handle cases where topic or category might not be provided (optional handling)
+    // settingsData = new Settings({
+    //   selectedOption,
+    //   mgrName,
+    //   mgrEmail,
+    //   presenter,
+    //   category,
+    //   topic,
+    //   department,
+    //   subtopics,
+    // });
+
+    // settingsData = await settingsData.save();
+    // }
+
   } catch (error) {
     console.error("Error processing request:", error);
     if (error.code === 11000) {

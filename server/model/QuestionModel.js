@@ -8,6 +8,7 @@ const questionaireSchema = new mongoose.Schema({
   mark: { type: Number, required: true },
   createdAt:{type: Date},
   topic: { type: String, required: true },
+  deleted: {type: Boolean, default: false}
 });
 
 const Questionaire= mongoose.model('Questionaire', questionaireSchema);
