@@ -16,6 +16,7 @@ settingsRouter.post("/saveData", authenticate, async (req, res) => {
       topic,
       department,
       subtopics,
+      numberOfQuestions
     } = req.body;
 
     // Check if topic and category are provided
