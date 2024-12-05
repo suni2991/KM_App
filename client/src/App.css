@@ -829,6 +829,7 @@ button .submit-button:disabled{
   margin: 2px 0;
 }
 
+.question-form input[type="number"],
 .question-form input[type="text"]{
   width: 90%;
 }
@@ -839,7 +840,7 @@ button .submit-button:disabled{
   width:  50%;
 }
 
-.question-form input[type="text"],
+.question-form input[type="text"],.question-form input[type="number"],
 .question-form input[type="radio"] {
   margin-left: 10px 0;
   padding: 5px;

@@ -53,6 +53,7 @@ settingsRouter.post("/saveData", authenticate, async (req, res) => {
           topic,
           department,
           subtopics,
+          numberOfQuestions,
         });
   
         settingsData = await settingsData.save();
@@ -131,7 +132,8 @@ settingsRouter.get("/getData", async (req, res) => {
 
 settingsRouter.get("/topics/:category", authenticate, async (req, res) => {
   const { category } = req.params;
-
+  // console.log("category Hi.");
+  
   try {
     let topics;
     if (category === "Assessment") {
@@ -163,6 +165,34 @@ settingsRouter.get("/topics/:category", authenticate, async (req, res) => {
   }
 });
 
+//get Topic by Id
+settingsRouter.get("/topics/id/:topicId", authenticate, async (req, res) => {
+  const {topicId } = req.params;
+
+  try {
+    // Find the topic based on category and topicId
+    const topic = await Settings.findOne({_id: topicId,});
+    console.log("Hi");
+    console.log(topic);
+    
+    if (topic) {
+      // Respond with the found topic
+      res.status(200).json({ message: "Topic fetched successfully", data: topic });
+    } else {
+      // Respond with a not found message if no topic is found
+      res.status(404).json({ message: "Topic not found" });
+    }
+  } catch (error) {
+    // Handle any errors
+    console.error("Error fetching topic:", error);
+    res.status(500).json({
+      message: "An error occurred while fetching the topic",
+      error: error.message,
+    });
+  }
+});
+
+
 // Update topic data
 settingsRouter.put(
   "/topics/:category/:topicId",
@@ -170,6 +200,7 @@ settingsRouter.put(
   async (req, res) => {
     const updateData = req.body;
     const { category, topicId } = req.params;
+    console.log("Hi");
     console.log(updateData);
     try {
       const checkTopic = await Settings.findOne({

@@ -3,6 +3,7 @@ const Questionaire = require("../model/QuestionModel");
 const multer = require("multer");
 const path = require("path");
 const { authenticate } = require("../middleware/CheckAuthMiddleware");
+const Settings = require("../model/SettingsModel");
 
 // Multer configuration
 const storage = multer.diskStorage({
@@ -119,19 +120,34 @@ const shuffleArray = (array) => {
 questionRouter.get("/questions/:topic", authenticate, async (req, res) => {
   try {
     const { topic } = req.params;
-    let questionCount = 10;
+    console.log("topic");
+    console.log(topic);
+    const { deleted } = req.query;
+    console.log("deleted");
+    console.log(deleted);
 
-    if (
-      topic === "informationSecurity" ||
-      topic === "unconsciousBias" ||
-      topic === "grammarPunctuation"
-    ) {
-      questionCount = 20;
+    const topicObject = await Settings.findOne({topic: topic});
+    console.log("topicObject");
+    console.log(topicObject);
+    let questionCount = topicObject.numberOfQuestions;
+    console.log(questionCount);
+
+    const filter = { topic: topic };
+    if (deleted !== undefined) {
+      filter.deleted = deleted === 'true';
     }
 
-    const questions = await Questionaire.find({ topic }).limit(questionCount);
+    // if (
+    //   topic === "informationSecurity" ||
+    //   topic === "unconsciousBias" ||
+    //   topic === "grammarPunctuation"
+    // ) {
+    //   questionCount = 20;
+    // }
 
-    if (questionCount === 20) {
+    const questions = await Questionaire.find(filter).limit(questionCount);
+
+    if (questionCount) {
       shuffleArray(questions);
     }
 

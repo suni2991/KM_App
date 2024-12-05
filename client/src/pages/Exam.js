@@ -102,7 +102,7 @@ const Exam = () => {
   const getEndpointForTopic = () => {
     const userTopic = auth.topics[currentTopicIndex]?.topic;
     if (userTopic) {
-      return `http://localhost:6001/questions/${userTopic}`;
+      return `http://localhost:6001/questions/${userTopic}?deleted=false`;
     } else {
       throw new Error("No topic found for the user.");
     }

@@ -29,6 +29,9 @@ const settingsSchema = new mongoose.Schema({
     type: String,
   },
   subtopics: [String],
+  numberOfQuestions:{
+    type: Number
+  }
 });
 
 // Pre-save hook to enforce uniqueness of topic within the same category

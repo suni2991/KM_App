@@ -53,6 +53,7 @@ employeeRouter.post("/register/employee", authenticate, (req, res) => {
 // user login
 
 employeeRouter.post("/api/login", (req, res) => {
+  // console.log(req.body);
   Employee.findOne({ email: req.body.email })
     .then((user) => {
       if (!user) {

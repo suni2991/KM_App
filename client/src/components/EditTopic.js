@@ -10,7 +10,9 @@ const EditTopic = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [topicId, setTopicId] = useState();
-  const [topic, setTopic] = useState("");
+  const [topicObject, setTopicObject] = useState("");
+  const [topicTitle, setTopicTitle] = useState("");
+  const [numberOfQuestions, setNumberOfQuestions] = useState();
   const [category, setCategory] = useState("");
   const [containsSubtopics, setContainsSubtopics] = useState(false);
   const [subtopics, setSubtopics] = useState([]);
@@ -18,18 +20,64 @@ const EditTopic = () => {
 
   useEffect(() => {
     setTopicId(id);
-    if (location.state) {
-      console.log(location.state);
-      const { _id, topic, category, subtopics } = location.state;
-      setTopic(topic);
-      if (category) {
-        setCategory(category);
-      }
-      if (subtopics) {
-        setSubtopics(subtopics);
+
+    const fetchTopic = async () => {
+      try {
+        const response = await axios.get(`http://localhost:6001/topics/id/${id}`,  {
+          headers: {
+            Authorization: `Bearer ${token}`, // Replace 'Bearer' with the required scheme if different
+          },
+        });
+
+        const fetchedTopic = await response.data.data; 
+
+        setTopicObject(fetchedTopic);
+        setTopicTitle(fetchedTopic.topic);
+        setNumberOfQuestions(fetchedTopic.numberOfQuestions);
+        setCategory(fetchedTopic.category);
+        console.log("Fetched Topic : ");
+        console.log(topicObject);  //this will show undefined because of asynchrnous behaviour of javascript.
+        console.log("Selected Category : ");
+        console.log(category);
+      } catch (error) {
+        // Handle errors
+        console.error(`Error fetching the topic with id ${id}: `, error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "An error occurred while fetching topic.",
+        });
       }
     }
-  }, [location.state]);
+
+    fetchTopic();
+    
+
+    // if (location.state) {
+    //   console.log("location state: ");
+    //   console.log(location.state);
+    //   const { _id, topic, category, subtopics, numberOfQuestions } = location.state;
+    //   setTopic(topic);
+    //   if(numberOfQuestions){
+    //     setNumberOfQuestions(numberOfQuestions);
+    //   }
+    //   if (category) {
+    //     setCategory(category);
+    //   }
+    //   if (subtopics) {
+    //     setSubtopics(subtopics);
+    //   }
+    // }
+  }, [topicId]);
+  
+  // useEffect(() => {
+  //   // if (topic) {
+  //     console.log("Fetched Topic (Updated): ", topic); // Logs the updated topic
+  //     // console.log(token);
+      
+  //   // }
+  // }, [topic]); 
+
   const handleSubtopicChange = (index, value) => {
     const updatedSubtopics = [...subtopics];
     updatedSubtopics[index] = value;
@@ -40,17 +88,21 @@ const EditTopic = () => {
   };
   const handleUpdate = async (e) => {
     e.preventDefault();
+
+
+
     let updatedData = {};
     if (category === "Bootcamp") {
       const filteredSubtopics = subtopics.filter((subtopic) => subtopic !== "");
       console.log("filteredSubtopics", filteredSubtopics);
       updatedData = {
-        topic: topic,
+        topic: topicTitle,
         subtopics: filteredSubtopics,
       };
     } else {
       updatedData = {
-        topic: topic,
+        topic: topicTitle,
+        numberOfQuestions: numberOfQuestions,
       };
     }
     console.log("updatedData ", updatedData);
@@ -71,7 +123,7 @@ const EditTopic = () => {
         title: "Success",
         text: `${response.data.message}`,
       });
-      setTopic("");
+      setTopicObject("");
       setSubtopics("");
       setCategory("");
       navigate("/questionaire");
@@ -99,10 +151,20 @@ const EditTopic = () => {
           <label>Topic:</label>
           <input
             type="text"
-            value={topic}
-            onChange={(e) => setTopic(e.target.value)}
+            value={topicTitle}
+            onChange={(e) => setTopicTitle(e.target.value)}
             required
             placeholder="Set Topic here"
+          />
+          <br />
+
+          <label>Enter Number of Questions to be attempted by the candidate:</label>
+          <input
+            type="number"
+            value={numberOfQuestions}
+            onChange={(e) => setNumberOfQuestions(e.target.value)}
+            required
+            placeholder="Set Number Of Questions here"
           />
         </div>
         <div>
@@ -143,7 +205,7 @@ const EditTopic = () => {
                     <button
                       type="button"
                       onClick={() => handleRemoveSubtopic(index)}
-                      style={{marginLeft: "10px", padding: "5px", backgroundColor: "red", cursor:"pointer"}}
+                      style={{ marginLeft: "10px", padding: "5px", backgroundColor: "red", cursor: "pointer" }}
                     >
                       X
                     </button>
