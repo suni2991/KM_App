@@ -12,9 +12,10 @@ const Exam = () => {
   const [testCount, setTestCount] = useState(0);
   const navigate = useNavigate();
   const [questions, setQuestions] = useState([]);
+  const [wrongAnswers, setWrongAnswers] = useState([]);
   const [currentTopicIndex, setCurrentTopicIndex] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [userAnswers, setUserAnswers] = useState({});
+  const [userAnswers, setUserAnswers] = useState([{}]);
   const [score, setScore] = useState(null);
   const passingScore = 0.8 * questions.length;
   const pendingTopics = auth.topics.filter((topic) => topic.score === -1);
@@ -35,6 +36,8 @@ const Exam = () => {
   };
 
   useEffect(() => {
+    console.log("auth id : " + auth._id);
+
     const timer = setTimeout(handleTimerExpired, 20 * 60 * 1000); // 600 seconds = 10 minutes
 
     return () => clearTimeout(timer);
@@ -54,10 +57,25 @@ const Exam = () => {
     navigate("/");
   };
 
+  const getEndpointForTopic = () => {
+    const userTopic = auth.topics[currentTopicIndex]?.topic;
+    if (userTopic) {
+      return `http://localhost:6001/questions/${userTopic}?deleted=false`;
+    } else {
+      throw new Error("No topic found for the user.");
+    }
+  };
+
   const fetchQuestions = async () => {
     try {
       const currentTopic = auth.topics[currentTopicIndex];
+      console.log("current Topic Sahil before checking for score: ");
+      console.log(currentTopic);
+
       if (currentTopic.score !== -1) {
+        console.log("Score for Sahil:");
+        console.log(currentTopic.score);
+
         setQuestions([]);
         console.log("Exam already attempted for this topic");
       } else {
@@ -68,12 +86,12 @@ const Exam = () => {
         const testCountResponse = await axios.get(
           `http://localhost:6001/employees/${auth._id}/topics/${currentTopic._id}`,
           {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: headers
           }
         );
         setTestCount(testCountResponse.data.testCount);
+        console.log("testCount Sahil:");
+        console.log(testCountResponse.data.testCount);
         setQuestions(response.data);
       }
     } catch (error) {
@@ -82,10 +100,13 @@ const Exam = () => {
   };
 
   useEffect(() => {
+    console.log("currentopicIndex in useEffect : " + currentTopicIndex);
     if (auth.role === "Employee") {
       const firstNotAttemptedTopicIndex = auth.topics.findIndex(
         (topic) => topic.score === -1
       );
+      console.log("firstNotAttemptedTopicIndex : ", firstNotAttemptedTopicIndex);
+
       if (firstNotAttemptedTopicIndex !== -1) {
         setCurrentTopicIndex(firstNotAttemptedTopicIndex);
       } else {
@@ -99,14 +120,6 @@ const Exam = () => {
     }
   }, [auth.role, auth.topics, currentTopicIndex]);
 
-  const getEndpointForTopic = () => {
-    const userTopic = auth.topics[currentTopicIndex]?.topic;
-    if (userTopic) {
-      return `http://localhost:6001/questions/${userTopic}?deleted=false`;
-    } else {
-      throw new Error("No topic found for the user.");
-    }
-  };
 
   const renderResult = () => {
     if (score !== null) {
@@ -159,7 +172,7 @@ const Exam = () => {
 
       for (let i = 0; i < questions.length; i++) {
         const correctAnswerIndex = questions[i].correctAnswer;
-        const userAnswer = userAnswers[i];
+        const userAnswer = userAnswers[i].selectedAnswerIndex;
 
         if (
           userAnswer !== undefined &&
@@ -184,6 +197,8 @@ const Exam = () => {
             score: totalScore,
             testCount: testCount,
             assessmentStatus: "Attempted",
+            wrongAnswers: wrongAnswers,
+            wrongAnswersCount: questions.length - totalScore,
           },
           {
             headers: {
@@ -250,24 +265,75 @@ const Exam = () => {
     }
   };
 
-  const handleAnswerChange = (event) => {
-    const { name, value } = event.target;
+  const handleAnswerChange = (event, index, option) => {
+    const { name } = event.target;
+
+    // Find the selected option text based on the index
+    // const selectedOptionIndex = value === "null" ? null : parseInt(value);
+    // const selectedOptionValue = selectedOptionIndex !== null ? dataset.optionText : null;
+
     setUserAnswers((prevAnswers) => ({
       ...prevAnswers,
-      [name]: value === "null" ? null : parseInt(value),
+      [name]: {
+        selectedAnswerIndex: index, // Store the selected option index
+        selectedAnswerValue: option, // Store the selected option text
+      },
     }));
+
+    // setUserAnswers((prevAnswers) => ({
+    //   ...prevAnswers,
+    //   [name]: {
+    //     selectedIndex: selectedOptionIndex,
+    //     selectedValue: selectedOptionValue,
+    //   }
+    // }));
+    console.log(userAnswers);
   };
 
   const calculateScore = () => {
     let score = 0;
     for (let i = 0; i < questions.length; i++) {
       const correctAnswerIndex = questions[i].correctAnswer;
-      const userAnswer = userAnswers[i];
+      console.log("correctAnswerIndex: ", correctAnswerIndex);
+      // console.log(correctAnswerIndex);
+      
+      const correctAnswerValue = questions[i].options[correctAnswerIndex];
+      console.log("correctAnswerValue: ", correctAnswerValue);
+      // const userAnswer = userAnswers[i];
+      
+      const userAnswerIndex = userAnswers[i].selectedAnswerIndex;
+      console.log("userAnswerIndex: ", userAnswerIndex);
+      
+      const userAnswerValue = userAnswers[i].selectedAnswerValue;
+      console.log("userAnswerValue: ", userAnswerValue);
+
       if (
-        userAnswer !== undefined &&
-        correctAnswerIndex === parseInt(userAnswer)
+        userAnswerIndex !== undefined &&
+        correctAnswerIndex === parseInt(userAnswerIndex)
       ) {
         score++;
+      }
+
+      if (parseInt(userAnswerIndex) !== correctAnswerIndex) {
+        const wrongAnswerObject = {
+          question: questions[i].question,
+          questionOptions: questions[i].options,
+          correctAnswerIndex: correctAnswerIndex,
+          correctAnswerValue: correctAnswerValue,
+          selectedAnswerIndex: userAnswerIndex,
+          selectedAnswerValue: userAnswerValue
+        }
+
+        console.log("wrongAnswersObject : ");
+        console.log(wrongAnswerObject);
+
+        setWrongAnswers((prevData) => {
+          prevData.push(wrongAnswerObject)
+          return prevData;
+        });
+        // setWrongAnswers((prevData) => [...prevData, wrongAnswerObject]);
+        console.log("wrong answers: ");
+        console.log(wrongAnswers);
       }
     }
     setScore(score);
@@ -365,7 +431,7 @@ const Exam = () => {
                 {" "}
                 Q: {questions[currentQuestionIndex].question}
               </h2>
-              {questions[currentQuestionIndex].image && (
+              {/* {questions[currentQuestionIndex].image && (
                 <div>
                   <img
                     src={`http://localhost:6001/uploads/${questions[currentQuestionIndex].image}`}
@@ -382,7 +448,7 @@ const Exam = () => {
                     }
                   />
                 </div>
-              )}
+              )} */}
             </div>
             <div>
               {questions[currentQuestionIndex].options &&
@@ -393,8 +459,9 @@ const Exam = () => {
                       id={`option${index}`}
                       name={currentQuestionIndex.toString()} // Convert to string
                       value={index.toString()} // Convert to string
-                      checked={userAnswers[currentQuestionIndex] === index} // Compare with index
-                      onChange={handleAnswerChange}
+                      checked={userAnswers[currentQuestionIndex]?.selectedAnswerIndex === index} // Compare with index
+                      // onChange={handleAnswerChange}
+                      onChange={(e) => handleAnswerChange(e, index, option)}
                     />
                     <label className="options" htmlFor={`option${index}`}>
                       {option}

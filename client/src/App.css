@@ -1445,3 +1445,17 @@ select.reg-input {
   color: #c42727;
   font-weight: bolder;
 }
+
+
+/* .ant-table-tbody {
+  text-align: center;
+} */
+
+/* .ant-table-cell {
+  text-align: center;
+} */
+
+/*
+:where(.css-dev-only-do-not-override-byeoj0).ant-table-wrapper .ant-table-thead >tr>th, :where(.css-dev-only-do-not-override-byeoj0).ant-table-wrapper .ant-table-thead >tr>td {
+  text-align: center;
+} */
