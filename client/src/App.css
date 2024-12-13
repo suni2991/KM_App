@@ -829,6 +829,7 @@ button .submit-button:disabled{
   margin: 2px 0;
 }
 
+.question-form input[type="number"],
 .question-form input[type="text"]{
   width: 90%;
 }
@@ -839,7 +840,7 @@ button .submit-button:disabled{
   width:  50%;
 }
 
-.question-form input[type="text"],
+.question-form input[type="text"],.question-form input[type="number"],
 .question-form input[type="radio"] {
   margin-left: 10px 0;
   padding: 5px;
@@ -1383,3 +1384,78 @@ select.reg-input {
   width: 13px !important;
   margin-left: 10px;
 }
+
+.modal-wrapper {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background-color: rgba(189, 189, 189, 0.9);
+}
+
+.modal-deleted-questions-content{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 700px;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+}
+
+.modal-close-button {
+  border: none;
+  border-radius: 5px;
+  margin-top: 10px;
+  padding: 5px 7px;
+  background-color: #c42727;
+  color: #fff;
+  cursor: pointer;
+}
+
+.deleted-questions-buton{
+  border: none;
+  border-radius: 100px;
+  margin-top: 14px;
+  /* padding: 5px 7px; */
+  padding-left: 7px;
+  padding-right: 7px;
+  background-color: #c42727;
+  color: #fff;
+  cursor: pointer;
+}
+
+.deleted-questions-buton:hover{
+  border: none;
+  border-radius: 100px;
+  margin-top: 14px;
+  /* padding: 5px 7px; */
+  padding-left: 7px;
+  padding-right: 7px;
+  border: 1px solid;
+  background-color: #fff;
+  color: #c42727;
+  cursor: pointer;
+}
+
+.question-list__title {
+  margin-bottom: 5px;
+  color: #c42727;
+  font-weight: bolder;
+}
+
+
+/* .ant-table-tbody {
+  text-align: center;
+} */
+
+/* .ant-table-cell {
+  text-align: center;
+} */
+
+/*
+:where(.css-dev-only-do-not-override-byeoj0).ant-table-wrapper .ant-table-thead >tr>th, :where(.css-dev-only-do-not-override-byeoj0).ant-table-wrapper .ant-table-thead >tr>td {
+  text-align: center;
+} */

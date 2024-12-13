@@ -10,44 +10,14 @@ import useAuth from "../hooks/useAuth";
 
 function Questionaire() {
   const [selectedTopic, setSelectedTopic] = useState("");
+  // const [isTopicUpdated, setIsTopicUpdated] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [topics, setTopics] = useState([]);
   const { token } = useAuth();
 
-  useEffect(() => {
-    console.log(token);
-    const fetchTopicsForCategory = async (category) => {
-      try {
-        const response = await axios.get(
-          `http://localhost:6001/topics/${category}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        console.log(token);
-        setTopics(response.data.topics); // Update topics state with fetched data
-        console.log("Fetched topics:", response.data.topics); // Log fetched topics
-      } catch (error) {
-        console.error("Error fetching topics:", error);
-        setTopics([]); // Set topics to empty array on error
-      }
-    };
-
-    fetchTopicsForCategory("Assessment"); // Fetch topics for 'Assessment' category on mount
-  }, []);
-
-  const getEndpointForTopic = (selectedTopicId) => {
-    if (!topics || topics.length === 0) {
-      throw new Error("Topics array is empty or undefined.");
-    }
-    const selectedTopic = topics.find((topic) => topic._id === selectedTopicId);
-    if (!selectedTopic) {
-      throw new Error(`Invalid topic: ${selectedTopicId}`);
-    }
-    return `http://localhost:6001/question/${selectedTopicId}`;
-  };
+  // const changeIsTopicsUpdated = () =>{
+  //   setIsTopicUpdated(!isTopicUpdated);
+  // }
 
   const fetchTopicsForCategory = async (category) => {
     try {
@@ -65,6 +35,42 @@ function Questionaire() {
       console.error("Error fetching topics:", error);
       setTopics([]); // Set topics to an empty array if there's an error
     }
+  };
+
+  useEffect(() => {
+    console.log(token);
+    // const fetchTopicsForCategory = async (category) => {
+    //   try {
+    //     const response = await axios.get(
+    //       `http://localhost:6001/topics/${category}`,
+    //       {
+    //         headers: {
+    //           Authorization: `Bearer ${token}`,
+    //         },
+    //       }
+    //     );
+    //     console.log(token);
+    //     // changeIsTopicsUpdated();
+    //     setTopics(response.data.topics); // Update topics state with fetched data
+    //     console.log("Fetched topics:", response.data.topics); // Log fetched topics
+    //   } catch (error) {
+    //     console.error("Error fetching topics:", error);
+    //     setTopics([]); // Set topics to empty array on error
+    //   }
+    // };
+
+    fetchTopicsForCategory("Assessment"); // Fetch topics for 'Assessment' category on mount
+  }, []);
+
+  const getEndpointForTopic = (selectedTopicId) => {
+    if (!topics || topics.length === 0) {
+      throw new Error("Topics array is empty or undefined.");
+    }
+    const selectedTopic = topics.find((topic) => topic._id === selectedTopicId);
+    if (!selectedTopic) {
+      throw new Error(`Invalid topic: ${selectedTopicId}`);
+    }
+    return `http://localhost:6001/question/${selectedTopicId}`;
   };
 
   const handleSubmit = (formData) => {
@@ -136,7 +142,7 @@ function Questionaire() {
           <QuestionList />
         </TabPanel>
         <TabPanel>
-          <Settings />
+          <Settings fetchTopicsForCategory={()=>{fetchTopicsForCategory("Assessment")}}/>
         </TabPanel>
         <TabPanel>
           <ViewAll />

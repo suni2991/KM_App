@@ -5,7 +5,7 @@ import { FadeLoader } from "react-spinners";
 import { Modal, Table, Button } from "antd";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { AiOutlineDelete, AiOutlineHistory } from "react-icons/ai";
+import { AiOutlineDelete, AiOutlineHistory, AiOutlineHourglass } from "react-icons/ai";
 import { RiEdit2Line } from "react-icons/ri";
 import { MdOutlineDone } from "react-icons/md";
 import useAuth from "../hooks/useAuth";
@@ -61,7 +61,58 @@ const HistoryModal = ({ visible, onCancel, data }) => {
   );
 };
 
+const WrongAnswersModalComponent = ({ visible, onCancel, data }) => {
+  const columns = [
+    {
+      title: "Question",
+      dataIndex: "question",
+      key: "question",
+    },
+    {
+      title: "Selected Answer",
+      dataIndex: "selectedAnswerValue",
+      key: "selectedAnswerValue",
+    },
+    {
+      title: "Correct Answer",
+      dataIndex: "correctAnswerValue",
+      key: "correctAnswerValue",
+      // render: (text) => format(new Date(text), "MM/dd/yyyy HH:mm:ss"),
+    },
+  ];
+  return (
+    <Modal
+      title="Wrong Answers Data"
+      open={visible}
+      onCancel={onCancel}
+      footer={[
+        <Button key="back" onClick={onCancel}>
+          Close
+        </Button>,
+      ]}
+      style={{
+        minWidth: "80vw",
+        maxWidth: "80vw",
+      }} // Set the width as a percentage of the viewport width
+      bodyStyle={{ height: "60vh", overflow: "auto" }} //
+    >
+      <Table
+        style={{ height: "100%" }}
+        columns={columns}
+        dataSource={data}
+        rowKey="id"
+        pagination={{
+          total: data.length,
+          showSizeChanger: true,
+          pageSizeOptions: ["5", "10", "15"],
+        }}
+      />
+    </Modal>
+  );
+};
+
 function View() {
+  const { auth, setAuth } = useAuth();
   const [employee, setEmployee] = useState(null);
   const [newPresenter, setNewPresenter] = useState("");
   const [selectedRowKey, setSelectedRowKey] = useState(null);
@@ -74,6 +125,8 @@ function View() {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [historyData, setHistoryData] = useState([]);
+  const [wrongAnswersData, setWrongAnswersData] = useState([]);
+  const [wrongAnswersModalVisible, setWrongAnswersModalVisible] = useState(false);
 
   const handleRowSelection = async (record) => {
     setSelectedRowKey(record.key);
@@ -228,10 +281,10 @@ function View() {
                       (topic, index) =>
                         index === rowKey
                           ? {
-                              ...topic,
-                              score: -1,
-                              assessmentStatus: "Not attempted",
-                            }
+                            ...topic,
+                            score: -1,
+                            assessmentStatus: "Not attempted",
+                          }
                           : topic
                     );
                     return { ...prevEmployee, topics: updatedTopics };
@@ -338,13 +391,14 @@ function View() {
 
   const assessmentData = employee.topics
     ? employee.topics.map((topic, index) => ({
-        key: index,
-        topic: topic.topic,
-        score: topic.score === -1 ? 0 : topic.score,
-        testCount: topic.testCount,
-        topicId: topic._id,
-        assessmentStatus: topic.assessmentStatus || "Not Attempted",
-      }))
+      key: index,
+      topic: topic.topic,
+      score: topic.score === -1 ? 0 : topic.score,
+      wrongAnswersCount: topic.wrongAnswersCount === -1 ? 0 : topic.wrongAnswersCount,
+      testCount: topic.testCount,
+      topicId: topic._id,
+      assessmentStatus: topic.assessmentStatus || "Not Attempted",
+    }))
     : [];
 
   const handleTopicDelete = async (rowKey, topicId) => {
@@ -412,6 +466,36 @@ function View() {
     }
   };
 
+  const handleWrongAnswers = async (topic, topicId) => {
+    console.log("topic: ");
+    console.log(topic);
+
+    console.log("topicId: ");
+    console.log(topicId);
+    
+    const response = await axios.get(
+      `http://localhost:6001/employees/${employee._id}/topics/${topicId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    // const data = await response.json();
+    const wrongAnswers = response.data.topic?.wrongAnswers;
+    console.log("wrong answers get Sahil: ");
+    console.log(wrongAnswers);
+
+    setWrongAnswersData((prevData) => [...prevData, ...wrongAnswers]);
+    setWrongAnswersModalVisible(true);
+  }
+
+  const closeWrongAnswersModal = () => {
+    setWrongAnswersModalVisible(false);
+    setWrongAnswersData([]);
+  };
+
   const handleTopicHistory = async (topic, topicId) => {
     const response = await fetch(
       `http://localhost:6001/employee/${id}/${topic}/topicHistory`,
@@ -422,7 +506,7 @@ function View() {
       }
     );
     const data = await response.json();
-   
+
     console.log(data.data);
     setHistoryData(data.data);
     setModalVisible(true);
@@ -500,6 +584,21 @@ function View() {
         key: "score",
       },
       {
+        title: "Errors",
+        dataIndex: "wrongAnswersCount",
+        key: "wrongAnswersCount",
+        render: (_, record) => (
+        <button
+              title="Wrong Answers"
+              onClick={() => handleWrongAnswers(record.topic, record.topicId)}
+              // className="action-button"
+              style={{ margin: "5px", textDecoration: "underline", color: '#00B4D2', background: 'none', border: 'none', cursor: 'pointer',  }}
+            >
+              {record.wrongAnswersCount}
+            </button>
+        )
+      },
+      {
         title: "Status",
         dataIndex: "assessmentStatus",
         key: "assessmentStatus",
@@ -543,6 +642,13 @@ function View() {
               onCancel={closeModal}
               data={historyData}
             />
+
+            <WrongAnswersModalComponent
+              visible={wrongAnswersModalVisible}
+              onCancel={closeWrongAnswersModal}
+              data={wrongAnswersData}
+            />
+
           </div>
         ),
       },
@@ -674,12 +780,12 @@ function View() {
 
     const inductionData = employee.topics
       ? employee.topics.map((topic, index) => ({
-          key: index,
-          topic: topic.topic,
-          inductionStatus: topic.inductionStatus || "Not Provided",
-          presenter: topic.presenter || "Not Provided",
-          topicId: topic._id,
-        }))
+        key: index,
+        topic: topic.topic,
+        inductionStatus: topic.inductionStatus || "Not Provided",
+        presenter: topic.presenter || "Not Provided",
+        topicId: topic._id,
+      }))
       : [];
 
     return (

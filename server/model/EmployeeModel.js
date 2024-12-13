@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const employeeSchema = new mongoose.Schema({
   id: { type: Number },
   firstName: { type: String },
-  lastName: { type: String},
+  lastName: { type: String },
   fullName: { type: String },
   contact: { type: Number },
   email: { type: String, unique: true },
@@ -28,11 +28,22 @@ const employeeSchema = new mongoose.Schema({
     {
       topic: { type: String },
       score: { type: Number, default: -1 },
+      wrongAnswersCount: { type: Number, default: -1 },
       testCount: { type: Number, default: 0 },
       assessmentStatus: { type: String, default: "Not Attempted" },
       inductionStatus: { type: String, default: "Not Received" },
       presenter: { type: String },
-      emailSent:{type:Boolean, default: false},
+      emailSent: { type: Boolean, default: false },
+      wrongAnswers: [
+        {
+          question: { type: String, required: true },
+          options: { type: [String], required: true },
+          correctAnswerIndex: { type: Number },
+          correctAnswerValue: { type: String },
+          selectedAnswerIndex: { type: Number },
+          selectedAnswerValue: { type: String },
+        },
+      ],
       history: [
         {
           score: { type: Number },
@@ -42,6 +53,7 @@ const employeeSchema = new mongoose.Schema({
       ],
     },
   ],
+
   testCount: { type: Number },
   status: { type: String, default: "In Progress" },
   password: { type: String },

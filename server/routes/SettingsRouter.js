@@ -16,26 +16,34 @@ settingsRouter.post("/saveData", authenticate, async (req, res) => {
       topic,
       department,
       subtopics,
+      numberOfQuestions
     } = req.body;
 
     // Check if topic and category are provided
     let settingsData;
     if (topic && category) {
       const existingTopic = await Settings.findOne({ topic, category });
+      // if (existingTopic) {
+      //   // If the topic already exists in the same category, handle the update or merge logic
+      //   console.log("Topic already exists in the same category, handle update or merge.");
+      //   // Example of updating existing entry
+      //   existingTopic.selectedOption = selectedOption;
+      //   existingTopic.mgrName = mgrName;
+      //   existingTopic.mgrEmail = mgrEmail;
+      //   existingTopic.presenter = presenter;
+      //   existingTopic.department = department;
+      //   existingTopic.subtopics = subtopics;
+
+      //   settingsData = await existingTopic.save();
+      // } 
       if (existingTopic) {
-        // If the topic already exists in the same category, handle the update or merge logic
-        console.log("Topic already exists in the same category, handle update or merge.");
-        // Example of updating existing entry
-        existingTopic.selectedOption = selectedOption;
-        existingTopic.mgrName = mgrName;
-        existingTopic.mgrEmail = mgrEmail;
-        existingTopic.presenter = presenter;
-        existingTopic.department = department;
-        existingTopic.subtopics = subtopics;
-        
-        settingsData = await existingTopic.save();
+        // const error = new Error("Duplicate entry detected.");
+        // error.status = 409;
+        // throw error;
+        console.log("Duplicate entry detected.");
+        return res.status(409).json({ message: "Duplicate entry detected." });
+
       } else {
-        // If it's a new entry, create a new document
         settingsData = new Settings({
           selectedOption,
           mgrName,
@@ -45,27 +53,62 @@ settingsRouter.post("/saveData", authenticate, async (req, res) => {
           topic,
           department,
           subtopics,
+          numberOfQuestions,
         });
-
+  
         settingsData = await settingsData.save();
+        return res.status(201).json(settingsData);
       }
-    } else {
-      // Handle cases where topic or category might not be provided (optional handling)
-      settingsData = new Settings({
-        selectedOption,
-        mgrName,
-        mgrEmail,
-        presenter,
-        category,
-        topic,
-        department,
-        subtopics,
-      });
+    } //else {
 
-      settingsData = await settingsData.save();
-    }
+      
 
-    res.status(201).json(settingsData);
+
+      // console.log("Duplicate entry detected.");
+      // return res.status(409).json({ message: "Duplicate entry detected." });
+
+      // res.setHeader("Content-Type", "application/json");
+      // res.status(409).json({ message: "Duplicate entry detected." });
+      // res.end();
+
+      // const error = new Error("Duplicate entry detected.");
+      // error.status = 409;
+      // throw error;
+
+
+      // return res.status(409).json({
+      //   success: false,
+      //   error: "Duplicate entry",
+      //   message: "This entry already exists in the database.",
+      // });
+
+
+      // console.log("Duplicate entry detected. Sending 409 response.");
+      // try {
+      //   return res.status(409).json({ message: "Duplicate entry detected." });
+      // } catch (error) {
+      //   console.error("Error in else block:", error);
+      //   return res.status(500).json({ message: "Internal Server Error", error: error.message });
+      // }
+
+      // return res.status(409).json({ message: "Duplicate entry detected." });
+      // throw new Error("Topic already exists.");
+    //}
+    // Handle cases where topic or category might not be provided (optional handling)
+    // settingsData = new Settings({
+    //   selectedOption,
+    //   mgrName,
+    //   mgrEmail,
+    //   presenter,
+    //   category,
+    //   topic,
+    //   department,
+    //   subtopics,
+    // });
+
+    // settingsData = await settingsData.save();
+    // }
+
   } catch (error) {
     console.error("Error processing request:", error);
     if (error.code === 11000) {
@@ -89,7 +132,8 @@ settingsRouter.get("/getData", async (req, res) => {
 
 settingsRouter.get("/topics/:category", authenticate, async (req, res) => {
   const { category } = req.params;
-
+  // console.log("category Hi.");
+  
   try {
     let topics;
     if (category === "Assessment") {
@@ -121,6 +165,34 @@ settingsRouter.get("/topics/:category", authenticate, async (req, res) => {
   }
 });
 
+//get Topic by Id
+settingsRouter.get("/topics/id/:topicId", authenticate, async (req, res) => {
+  const {topicId } = req.params;
+
+  try {
+    // Find the topic based on category and topicId
+    const topic = await Settings.findOne({_id: topicId,});
+    console.log("Hi");
+    console.log(topic);
+    
+    if (topic) {
+      // Respond with the found topic
+      res.status(200).json({ message: "Topic fetched successfully", data: topic });
+    } else {
+      // Respond with a not found message if no topic is found
+      res.status(404).json({ message: "Topic not found" });
+    }
+  } catch (error) {
+    // Handle any errors
+    console.error("Error fetching topic:", error);
+    res.status(500).json({
+      message: "An error occurred while fetching the topic",
+      error: error.message,
+    });
+  }
+});
+
+
 // Update topic data
 settingsRouter.put(
   "/topics/:category/:topicId",
@@ -128,6 +200,7 @@ settingsRouter.put(
   async (req, res) => {
     const updateData = req.body;
     const { category, topicId } = req.params;
+    console.log("Hi");
     console.log(updateData);
     try {
       const checkTopic = await Settings.findOne({

@@ -53,6 +53,7 @@ employeeRouter.post("/register/employee",  (req, res) => {
 // user login
 
 employeeRouter.post("/api/login", (req, res) => {
+  // console.log(req.body);
   Employee.findOne({ email: req.body.email })
     .then((user) => {
       if (!user) {
@@ -178,7 +179,7 @@ employeeRouter.get(
       }
 
       // Return the testCount for the current topic
-      res.json({ testCount: topic.testCount });
+      res.json({ topic: topic });
     } catch (error) {
       console.error("Error fetching testCount:", error);
       res.status(500).json({ message: "Failed to fetch testCount." });
@@ -430,8 +431,12 @@ employeeRouter.put(
   "/employees/:employeeId/topics/:topicId",
   authenticate,
   async (req, res) => {
+    console.log("Hi");
+    console.log("request body: ");
+    console.log(req.body);
+    
     const { employeeId, topicId } = req.params;
-    const { score, assessmentStatus } = req.body;
+    const { score, assessmentStatus, wrongAnswersCount, wrongAnswers } = req.body;
 
     try {
       // Find the employee by ID
@@ -441,8 +446,15 @@ employeeRouter.put(
         return res.status(404).json({ error: "Employee not found" });
       }
 
+      //wrongAnswers
+      console.log("wrongAnswers");
+      console.log(wrongAnswers);
+
       // Find the topic in the employee's topics array by ID
       const topicToUpdate = employee.topics.id(topicId);
+      console.log("topicToUpdate:");
+      console.log(topicToUpdate);
+      
 
       if (!topicToUpdate) {
         return res.status(404).json({ error: "Topic not found" });
@@ -453,7 +465,20 @@ employeeRouter.put(
       }
 
       topicToUpdate.score = score;
+      topicToUpdate.wrongAnswersCount = wrongAnswersCount;
       topicToUpdate.assessmentStatus = assessmentStatus;
+      // topicToUpdate.wrongAnswers = wrongAnswers;
+
+
+      topicToUpdate.wrongAnswers = wrongAnswers.map((wrongAnswer) => ({
+        question: wrongAnswer.question,
+        options: wrongAnswer.options,
+        correctAnswerIndex: wrongAnswer.correctAnswerIndex,
+        correctAnswerValue: wrongAnswer.correctAnswerValue,
+        selectedAnswerIndex: wrongAnswer.selectedAnswerIndex,
+        selectedAnswerValue: wrongAnswer.selectedAnswerValue,
+      }));
+
 
       await employee.save();
 

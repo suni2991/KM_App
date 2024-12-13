@@ -3,7 +3,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import useAuth from "../hooks/useAuth";
 
-const Settings = () => {
+const Settings = ({ fetchTopicsForCategory }) => {
   const [selectedOption, setSelectedOption] = useState("");
   const [category, setCategory] = useState("");
   const [topic, setTopicName] = useState("");
@@ -11,6 +11,7 @@ const Settings = () => {
   const [department, setDepartment] = useState("");
   const [mgrName, setMgrName] = useState("");
   const [mgrEmail, setMgrEmail] = useState("");
+  const [numberOfQuestions, setNumberOfQuestions] = useState();
   const [containsSubtopics, setContainsSubtopics] = useState(false); // New state for the checkbox
   const [subtopics, setSubtopics] = useState([]);
   const { token } = useAuth();
@@ -49,6 +50,7 @@ const Settings = () => {
         topic,
         containsSubtopics,
         subtopics,
+        numberOfQuestions,
       };
     } else if (selectedOption === "Presenter") {
       dataToSend = {
@@ -68,8 +70,9 @@ const Settings = () => {
       };
     }
 
+    // let saveResponse
     try {
-      const response = await axios.post(
+      const saveResponse = await axios.post(
         "http://localhost:6001/saveData",
         dataToSend,
         {
@@ -78,19 +81,47 @@ const Settings = () => {
           },
         }
       );
-      console.log("Data sent to backend:", response.data);
+      console.log("Data sent to backend:", saveResponse.data);
+      fetchTopicsForCategory("Assessment");
       Swal.fire({
         icon: "success",
         title: "Success",
         text: "Data saved successfully!",
       });
     } catch (error) {
-      console.error("Error sending data to backend:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "An error occurred while saving data.",
-      });
+
+      // console.log("Error response details:", error.response);
+      // console.log("Status Code:", error.response.status);
+      // console.log("Response Headers:", error.response.headers);
+      // console.log("Response Data:", error.response.data);
+
+      // console.log("Error occured Sahil!");
+
+      // if (error.response) {
+      //   console.log("Error response from backend:", error.response.data);
+      //   if (saveResponse.response.status === 409) {
+      //     Swal.fire({
+      //       icon: "error",
+      //       title: "Duplicate Entry",
+      //       text: "This entry already exists in the database",
+      //     });
+      //   }
+      if (error.response.status === 409) {
+        Swal.fire({
+          icon: "error",
+          title: "Duplicate Entry",
+          text: "An entry already exists with the same data.",
+        });
+        // fetchTopicsForCategory("Assessment");
+      } else {
+        console.error("Error sending data to backend:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "An error occurred while saving data.",
+        });
+        // fetchTopicsForCategory("Assessment");
+      }
       // Optionally, you can handle errors or display an error message to the user
     }
   };
@@ -134,6 +165,15 @@ const Settings = () => {
               value={topic}
               onChange={(e) => setTopicName(e.target.value)}
             />
+            <br />
+            <label htmlFor="numberOfQuestions">Enter Number of Questions to be attempted by the candidate:</label>
+            <input
+              type="number"
+              id="numberOfQuestions"
+              value={numberOfQuestions}
+              onChange={(e) => setNumberOfQuestions(e.target.value)}
+            />
+
             {category === "Bootcamp" && (
               <>
                 <input

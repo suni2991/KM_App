@@ -171,9 +171,6 @@ function Admin() {
   useEffect(() => {
     fetchTopics(); // Fetch topics when the component mounts
   }, []);
-  
-
-
 
   const handleDelete = async () => {
     Swal.fire({
