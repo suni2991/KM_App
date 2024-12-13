@@ -319,7 +319,10 @@ function Registration() {
       mgrName: mgrName,
       mgrEmail: mgrEmail,
       role: role,
-      topics: formData.selectedTopic.map((topic) => ({ topic })),
+      topics: formData.role === "Employee"
+      ? formData.selectedTopic.map((topic) => ({ topic }))
+      : undefined,
+      // topics: formData.selectedTopic.map((topic) => ({ topic })),
     };
 
     console.log("FormData with Topic:", formDataWithFullName);

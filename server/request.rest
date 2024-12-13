@@ -2,10 +2,10 @@ POST http://localhost:6001/register/employee
 Content-Type: application/json
 
 {
-    "firstName" : "admin",
+    "firstName" : "ad",
     "lastName" : "admin",
     "email" : "admin@enfuse-solutions.com",
-    "password": "RAM@12345",
-    "confirmPassword": "RAM@12345",
+    "password": "admin12345",
+    "confirmPassword": "admin12345",
     "role": "Admin"
 }

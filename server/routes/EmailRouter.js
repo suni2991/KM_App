@@ -29,8 +29,10 @@ emailRouter.post("/user/register", (req, res) => {
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
+
                 user: "learninganddevelopment@enfuse-solutions.com",
                 pass: "huzjfvqfpkejlcrf123"
+
             }
         });
 
@@ -94,7 +96,9 @@ emailRouter.post("/user/induction", (req, res) => {
         service: "gmail",
         auth: {
           user: "learninganddevelopment@enfuse-solutions.com",
+
           pass: "huzjfvqfpkejlcrf123",
+
         },
       });
   
@@ -173,7 +177,9 @@ emailRouter.post("/user/exam", (req, res) => {
             service: "gmail",
             auth: {
                 user: "learninganddevelopment@enfuse-solutions.com",
+
                 pass: "huzjfvqfpkejlcrf123"
+
             }
         });
 
@@ -245,7 +251,9 @@ emailRouter.post("/user/bootcamp/exam", async (req, res) => {
       service: "gmail",
       auth: {
         user: "learninganddevelopment@enfuse-solutions.com",
+
         pass: "huzjfvqfpkejlcrf123",
+
       },
     });
 
@@ -310,7 +318,9 @@ emailRouter.post("/score/manager", (req, res) => {
             service: "gmail",
             auth: {
                 user: "learninganddevelopment@enfuse-solutions.com",
+
                 pass: "huzjfvqfpkejlcrf123"
+
             },
             
         });
@@ -364,7 +374,9 @@ emailRouter.post("/score/employee", (req, res) => {
             service: "gmail",
             auth: {
                 user: "learninganddevelopment@enfuse-solutions.com",
+
                 pass: "huzjfvqfpkejlcrf123"
+
             }
         });
 

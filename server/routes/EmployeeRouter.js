@@ -7,7 +7,7 @@ const { authenticate } = require("../middleware/CheckAuthMiddleware");
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 //Create User - or register, a simple post request to save user in db
-employeeRouter.post("/register/employee", authenticate, (req, res) => {
+employeeRouter.post("/register/employee",  (req, res) => {
   const newUser = new Employee({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
