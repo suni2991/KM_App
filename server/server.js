@@ -38,5 +38,6 @@ app.use(bootcampRouter)
 
 
 app.listen(6001, () => {
-  console.log('KM server started at port 6001')
+  // console.log('url', process.env.URL);
+  console.log('KM server started at port 6001');
 })

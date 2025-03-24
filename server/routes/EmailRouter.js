@@ -19,217 +19,223 @@ const compiledTemplate5 = Hogan.compile(template5);
 const compiledTemplate6 = Hogan.compile(template6);
 // send mail Credentials
 emailRouter.post("/user/register", (req, res) => {
-    const { username } = req.body;
-    const { confirmPassword } = req.body;
-    const { email } = req.body;
-    const { fullName } = req.body;
+  const { username } = req.body;
+  const { confirmPassword } = req.body;
+  const { email } = req.body;
+  const { fullName } = req.body;
 
-    try {
+  try {
 
-        const transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
 
-                user: "learninganddevelopment@enfuse-solutions.com",
-                pass: "huzjfvqfpkejlcrf123"
+        user: "learninganddevelopment@enfuse-solutions.com",
+        pass: "huzjfvqfpkejlcrf123"
 
-            }
-        });
+      }
+    });
 
-        const mailOptions = {
-            from: 'learninganddevelopment@enfuse-solutions.com',
-            to: email,
-            subject: "Enfuse Learning & Development",
-            html: compiledTemplate.render({ username, fullName, confirmPassword }),
-            attachments: [
-                {
-                    filename: 'enfuse-logo.png',
-                    path: './views/enfuse-logo.png',
-                    cid: "enfuse-logo"
-                },
-                {
-                    filename: 'welcome.jpg',
-                    path: './views/welcome.jpg',
-                    cid: "welcome"
-                },
-            ]
-        };
+    const mailOptions = {
+      from: 'learninganddevelopment@enfuse-solutions.com',
+      to: email,
+      subject: "Enfuse Learning & Development",
+      html: compiledTemplate.render({ username, fullName, confirmPassword }),
+      attachments: [
+        {
+          filename: 'enfuse-logo.png',
+          path: './views/enfuse-logo.png',
+          cid: "enfuse-logo"
+        },
+        {
+          filename: 'welcome.jpg',
+          path: './views/welcome.jpg',
+          cid: "welcome"
+        },
+      ]
+    };
 
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.log("Error" + error)
-            } else {
-                console.log("Email sent:" + info.response);
-                res.status(201).json({ status: 201, info })
-            }
-        })
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log("Error" + error)
+      } else {
+        console.log("Email sent:" + info.response);
+        res.status(201).json({ status: 201, info })
+      }
+    })
 
-    } catch (error) {
-        console.loyg("Error" + error);
-        res.status(401).json({ status: 401, error })
-    }
+  } catch (error) {
+    console.loyg("Error" + error);
+    res.status(401).json({ status: 401, error })
+  }
 });
 
 emailRouter.post("/user/induction", (req, res) => {
-    const { email, fullName, confirmPassword, topics } = req.body;
-    const lastSixTopics = topics.slice(-6); // Get the last 6 topics
-  
-    // Create variables for each topic
-    const topic1 = lastSixTopics[0]?.topic || "";
-    const topic2 = lastSixTopics[1]?.topic || "";
-    const topic3 = lastSixTopics[2]?.topic || "";
-    const topic4 = lastSixTopics[3]?.topic || "";
-    const topic5 = lastSixTopics[4]?.topic || "";
-    const topic6 = lastSixTopics[5]?.topic || "";
-  
-    // Create variables for each presenter
-    const presenter1 = lastSixTopics[0]?.presenter || "";
-    const presenter2 = lastSixTopics[1]?.presenter || "";
-    const presenter3 = lastSixTopics[2]?.presenter || "";
-    const presenter4 = lastSixTopics[3]?.presenter || "";
-    const presenter5 = lastSixTopics[4]?.presenter || "";
-    const presenter6 = lastSixTopics[5]?.presenter || "";
-    
-  
-    try {
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: "learninganddevelopment@enfuse-solutions.com",
+  const { email, fullName, confirmPassword, topics } = req.body;
+  const lastSixTopics = topics.slice(-6); // Get the last 6 topics
 
-          pass: "huzjfvqfpkejlcrf123",
+  // Create variables for each topic
+  const topic1 = lastSixTopics[0]?.topic || "";
+  const topic2 = lastSixTopics[1]?.topic || "";
+  const topic3 = lastSixTopics[2]?.topic || "";
+  const topic4 = lastSixTopics[3]?.topic || "";
+  const topic5 = lastSixTopics[4]?.topic || "";
+  const topic6 = lastSixTopics[5]?.topic || "";
 
+  // Create variables for each presenter
+  const presenter1 = lastSixTopics[0]?.presenter || "";
+  const presenter2 = lastSixTopics[1]?.presenter || "";
+  const presenter3 = lastSixTopics[2]?.presenter || "";
+  const presenter4 = lastSixTopics[3]?.presenter || "";
+  const presenter5 = lastSixTopics[4]?.presenter || "";
+  const presenter6 = lastSixTopics[5]?.presenter || "";
+
+
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "learninganddevelopment@enfuse-solutions.com",
+
+        pass: "huzjfvqfpkejlcrf123",
+
+      },
+    });
+
+    const mailOptions = {
+      from: "learninganddevelopment@enfuse-solutions.com",
+      to: email,
+      subject: "Enfuse Learning & Development",
+      html: compiledTemplate2.render({
+        fullName,
+        email,
+        confirmPassword,
+        topic1,
+        topic2,
+        topic3,
+        topic4,
+        topic5,
+        topic6,
+        presenter1,
+        presenter2,
+        presenter3,
+        presenter4,
+        presenter5,
+        presenter6,
+      }),
+      attachments: [
+        {
+          filename: "enfuse-logo.png",
+          path: "./views/enfuse-logo.png",
+          cid: "enfuse-logo",
         },
-      });
-  
-      const mailOptions = {
-        from: "learninganddevelopment@enfuse-solutions.com",
-        to: email,
-        subject: "Enfuse Learning & Development",
-        html: compiledTemplate2.render({
-          fullName,
-          email,
-          confirmPassword,
-          topic1,
-          topic2,
-          topic3,
-          topic4,
-          topic5,
-          topic6,
-          presenter1,
-          presenter2,
-          presenter3,
-          presenter4,
-          presenter5,
-          presenter6,
-        }),
-        attachments: [
-          {
-            filename: "enfuse-logo.png",
-            path: "./views/enfuse-logo.png",
-            cid: "enfuse-logo",
-          },
-          {
-            filename: "feedback.jpg",
-            path: "./views/feedback.jpg",
-            cid: "feedback",
-          },
-        ],
-      };
-  
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          console.log("Error" + error);
-          res.status(500).json({ status: 500, error });
-        } else {
-          console.log("Email sent:" + info.response);
-          res.status(201).json({ status: 201, info });
-        }
-      });
-    } catch (error) {
-      console.log("Error" + error);
-      res.status(401).json({ status: 401, error });
-    }
-  });
- 
+        {
+          filename: "feedback.jpg",
+          path: "./views/feedback.jpg",
+          cid: "feedback",
+        },
+      ],
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log("Error" + error);
+        res.status(500).json({ status: 500, error });
+      } else {
+        console.log("Email sent:" + info.response);
+        res.status(201).json({ status: 201, info });
+      }
+    });
+  } catch (error) {
+    console.log("Error" + error);
+    res.status(401).json({ status: 401, error });
+  }
+});
+
 // Assessment link
 emailRouter.post("/user/exam", (req, res) => {
+  console.log('Entered...');
   const { email, fullName, confirmPassword, topics } = req.body;
-    const lastSixTopics = topics.slice(-6); // Get the last 6 topics
-  
-    // Create variables for each topic
-    const topic1 = lastSixTopics[0]?.topic || "";
-    const topic2 = lastSixTopics[1]?.topic || "";
-    const topic3 = lastSixTopics[2]?.topic || "";
-    const topic4 = lastSixTopics[3]?.topic || "";
-    const topic5 = lastSixTopics[4]?.topic || "";
-    const topic6 = lastSixTopics[5]?.topic || "";
-  
-    const link1 = `http://localhost:3000/exam`;
+  // try {    
+  const lastSixTopics = topics.slice(-6); // Get the last 6 topics
+
+  const topic1 = lastSixTopics[0]?.topic || "";
+  const topic2 = lastSixTopics[1]?.topic || "";
+  const topic3 = lastSixTopics[2]?.topic || "";
+  const topic4 = lastSixTopics[3]?.topic || "";
+  const topic5 = lastSixTopics[4]?.topic || "";
+  const topic6 = lastSixTopics[5]?.topic || "";// Create variables for each topic
+
+
+  const link1 = `http://localhost:3000/exam`;
   const link2 = `http://localhost:3000/exam`;
   const link3 = `http://localhost:3000/exam`;
   const link4 = `http://localhost:3000/exam`;
   const link5 = `http://localhost:3000/exam`;
   const link6 = `http://localhost:3000/exam`;
-    try {
 
-        const transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                user: "learninganddevelopment@enfuse-solutions.com",
+  // } catch (error) {
+  // console.log('Error in first half: ' + error);
 
-                pass: "huzjfvqfpkejlcrf123"
+  // }
+  try {
 
-            }
-        });
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD
+      }
+    });
 
-        const mailOptions = {
-            from: 'learninganddevelopment@enfuse-solutions.com',
-            to: email,
-            subject: "Enfuse Learning & Development",
-            html: compiledTemplate3.render({
-              fullName,
-          email,
-          confirmPassword,
-          topic1,
-          topic2,
-          topic3,
-          topic4,
-          topic5,
-          topic6,
-          link1,
-          link2,
-          link3,
-          link4,
-          link5,
-          link6,}),
-            attachments: [
-                {
-                    filename: 'enfuse-logo.png',
-                    path: './views/enfuse-logo.png',
-                    cid: "enfuse-logo"
-                },
-                {
-                    filename: 'assessment.jpg',
-                    path: './views/assessment.jpg',
-                    cid: "assessment"
-                },
-            ]
-        };
+    const mailOptions = {
+      from: process.env.EMAIL,
+      to: email,
+      subject: "Enfuse Learning & Development",
+      html: compiledTemplate3.render({
+        fullName,
+        email,
+        confirmPassword,
+        topic1,
+        topic2,
+        topic3,
+        topic4,
+        topic5,
+        topic6,
+        link1,
+        link2,
+        link3,
+        link4,
+        link5,
+        link6,
+      }),
+      attachments: [
+        {
+          filename: 'enfuse-logo.png',
+          path: './views/enfuse-logo.png',
+          cid: "enfuse-logo"
+        },
+        {
+          filename: 'assessment.jpg',
+          path: './views/assessment.jpg',
+          cid: "assessment"
+        },
+      ]
+    };
 
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.log("Error" + error)
-            } else {
-                console.log("Email sent:" + info.response);
-                res.status(201).json({ status: 201, info })
-            }
-        })
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log("Error" + error)
+      } else {
+        console.log("Email sent:" + info.response);
+        res.status(201).json({ status: 201, info })
+      }
+    })
 
-    } catch (error) {
-        console.log("Error" + error);
-        res.status(401).json({ status: 401, error })
-    }
+  } catch (error) {
+    console.log("Error" + error);
+    res.status(401).json({ status: 401, error })
+  }
 });
 
 emailRouter.post("/user/bootcamp/exam", async (req, res) => {
@@ -265,7 +271,7 @@ emailRouter.post("/user/bootcamp/exam", async (req, res) => {
         fullName,
         email,
         trainingName,
-       
+
         subTraining1,
         subTraining2,
         subTraining3,
@@ -306,112 +312,112 @@ emailRouter.post("/user/bootcamp/exam", async (req, res) => {
 // scores to manager
 emailRouter.post("/score/manager", (req, res) => {
 
-    const { mgrEmail } = req.body;
-    const { mgrName } = req.body;
-    const { topic } = req.body;
-    const {score} = req.body;
-    const {result} = req.body;
-    const {fullName} = req.body
-    try {
+  const { mgrEmail } = req.body;
+  const { mgrName } = req.body;
+  const { topic } = req.body;
+  const { score } = req.body;
+  const { result } = req.body;
+  const { fullName } = req.body
+  try {
 
-        const transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                user: "learninganddevelopment@enfuse-solutions.com",
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "learninganddevelopment@enfuse-solutions.com",
 
-                pass: "huzjfvqfpkejlcrf123"
+        pass: "huzjfvqfpkejlcrf123"
 
-            },
-            
-        });
+      },
 
-        const mailOptions = {
-            from: 'learninganddevelopment@enfuse-solutions.com',
-            to: mgrEmail,
-            subject: "Enfuse Learning & Development",
-            html: compiledTemplate4.render({fullName, mgrName, topic, score, result}),
-            attachments: [
-                {
-                    filename: 'enfuse-logo.png',
-                    path: './views/enfuse-logo.png',
-                    cid: "enfuse-logo"
-                },
-                {
-                    filename: 'scores.jpg',
-                    path: './views/scores.jpg',
-                    cid: "scores"
-                },
-            ]
-        };
+    });
 
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.log("Error" + error)
-            } else {
-                console.log("Email sent:" + info.response);
-                res.status(201).json({ status: 201, info })
-            }
-        })
+    const mailOptions = {
+      from: 'learninganddevelopment@enfuse-solutions.com',
+      to: mgrEmail,
+      subject: "Enfuse Learning & Development",
+      html: compiledTemplate4.render({ fullName, mgrName, topic, score, result }),
+      attachments: [
+        {
+          filename: 'enfuse-logo.png',
+          path: './views/enfuse-logo.png',
+          cid: "enfuse-logo"
+        },
+        {
+          filename: 'scores.jpg',
+          path: './views/scores.jpg',
+          cid: "scores"
+        },
+      ]
+    };
 
-    } catch (error) {
-        console.log("Error" + error);
-        res.status(401).json({ status: 401, error })
-    }
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log("Error" + error)
+      } else {
+        console.log("Email sent:" + info.response);
+        res.status(201).json({ status: 201, info })
+      }
+    })
+
+  } catch (error) {
+    console.log("Error" + error);
+    res.status(401).json({ status: 401, error })
+  }
 });
 
 //score to Employee
 emailRouter.post("/score/employee", (req, res) => {
 
-    const { email } = req.body;
-    const { fullName } = req.body;
-    const { topic } = req.body;
-    const {score} = req.body;
-    const {result} = req.body;
-    
-    try {
+  const { email } = req.body;
+  const { fullName } = req.body;
+  const { topic } = req.body;
+  const { score } = req.body;
+  const { result } = req.body;
 
-        const transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                user: "learninganddevelopment@enfuse-solutions.com",
+  try {
 
-                pass: "huzjfvqfpkejlcrf123"
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "learninganddevelopment@enfuse-solutions.com",
 
-            }
-        });
+        pass: "huzjfvqfpkejlcrf123"
 
-        const mailOptions = {
-            from: 'learninganddevelopment@enfuse-solutions.com',
-            to: email,
-            subject: "Enfuse Learning & Development",
-            html: compiledTemplate5.render({fullName, topic, score, result}),
-            attachments: [
-                {
-                    filename: 'enfuse-logo.png',
-                    path: './views/enfuse-logo.png',
-                    cid: "enfuse-logo"
-                },
-                {
-                    filename: 'scores.jpg',
-                    path: './views/scores.jpg',
-                    cid: "scores"
-                },
-            ]
-        };
+      }
+    });
 
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.log("Error" + error)
-            } else {
-                console.log("Email sent:" + info.response);
-                res.status(201).json({ status: 201, info })
-            }
-        })
+    const mailOptions = {
+      from: 'learninganddevelopment@enfuse-solutions.com',
+      to: email,
+      subject: "Enfuse Learning & Development",
+      html: compiledTemplate5.render({ fullName, topic, score, result }),
+      attachments: [
+        {
+          filename: 'enfuse-logo.png',
+          path: './views/enfuse-logo.png',
+          cid: "enfuse-logo"
+        },
+        {
+          filename: 'scores.jpg',
+          path: './views/scores.jpg',
+          cid: "scores"
+        },
+      ]
+    };
 
-    } catch (error) {
-        console.log("Error" + error);
-        res.status(401).json({ status: 401, error })
-    }
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log("Error" + error)
+      } else {
+        console.log("Email sent:" + info.response);
+        res.status(201).json({ status: 201, info })
+      }
+    })
+
+  } catch (error) {
+    console.log("Error" + error);
+    res.status(401).json({ status: 401, error })
+  }
 });
 
 

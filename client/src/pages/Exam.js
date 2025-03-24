@@ -431,7 +431,7 @@ const Exam = () => {
                 {" "}
                 Q: {questions[currentQuestionIndex].question}
               </h2>
-              {/* {questions[currentQuestionIndex].image && (
+              {questions[currentQuestionIndex].image && (
                 <div>
                   <img
                     src={`http://localhost:6001/uploads/${questions[currentQuestionIndex].image}`}
@@ -448,7 +448,7 @@ const Exam = () => {
                     }
                   />
                 </div>
-              )} */}
+              )}
             </div>
             <div>
               {questions[currentQuestionIndex].options &&

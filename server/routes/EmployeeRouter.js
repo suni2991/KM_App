@@ -491,6 +491,8 @@ employeeRouter.put(
 );
 
 employeeRouter.delete("/admin/users/:id", authenticate, async (req, res) => {
+  console.log('Hi delete');
+  
   try {
     const _id = req.params.id;
     const result = await Employee.findByIdAndDelete(_id);

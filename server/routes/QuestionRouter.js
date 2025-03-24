@@ -4,6 +4,7 @@ const multer = require("multer");
 const path = require("path");
 const { authenticate } = require("../middleware/CheckAuthMiddleware");
 const Settings = require("../model/SettingsModel");
+const { log } = require("console");
 
 // Multer configuration
 const storage = multer.diskStorage({
@@ -46,7 +47,7 @@ questionRouter.post(
   }
 );
 
-questionRouter.get('/questions/all/:category', async (req, res) => {
+questionRouter.get('/questions/all/topic/:category', async (req, res) => {
   const { category } = req.params;
   const { deleted } = req.query; // Get the deleted parameter from query string
 
@@ -58,6 +59,8 @@ questionRouter.get('/questions/all/:category', async (req, res) => {
     }
 
     const questions = await Questionaire.find(filter);
+    console.log('filter', filter);
+    console.log('questions', questions);
     res.status(200).json(questions);
   } catch (error) {
     console.error('Error fetching questions:', error);
@@ -65,10 +68,17 @@ questionRouter.get('/questions/all/:category', async (req, res) => {
   }
 });
 
-questionRouter.get("/questions/all/:topic", authenticate, async (req, res) => {
+questionRouter.get("/questions/all/topic/:topic", authenticate, async (req, res) => {
   try {
     const { topic } = req.params;
-    const questions = await Questionaire.find({ topic });
+    const { deleted } = req.query; // Get the deleted parameter from query string
+
+    const filter = { topic: topic };
+    if (deleted !== undefined) {
+      filter.deleted = deleted === 'true';
+    }
+
+    const questions = await Questionaire.find(filter);
 
     // Map each question to include the image path if available
     const questionsWithImage = questions.map((question) => ({
@@ -126,7 +136,7 @@ questionRouter.get("/questions/:topic", authenticate, async (req, res) => {
     console.log("deleted");
     console.log(deleted);
 
-    const topicObject = await Settings.findOne({topic: topic});
+    const topicObject = await Settings.findOne({ topic: topic });
     console.log("topicObject");
     console.log(topicObject);
     let questionCount = topicObject.numberOfQuestions;

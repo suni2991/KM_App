@@ -55,7 +55,7 @@ function QuestionList() {
 
   const fetchQuestions = async () => {
     try {
-      const endpoint = `http://localhost:6001/questions/all/${selectedTopic}?deleted=false`; // Use selectedTopic instead of selectedCategory
+      const endpoint = `http://localhost:6001/questions/all/topic/${selectedTopic}?deleted=false`; // Use selectedTopic instead of selectedCategory
       const response = await axios.get(endpoint, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -70,7 +70,7 @@ function QuestionList() {
 
   const fetchDeletedQuestions = async () => {
     try {
-      const endpoint = `http://localhost:6001/questions/all/${selectedTopic}?deleted=true`;
+      const endpoint = `http://localhost:6001/questions/all/topic/${selectedTopic}?deleted=true`;
       const response = await axios.get(endpoint);
       setDeletedQuestions(response.data);
       // setSelectedCategoryCount(response.data.length);

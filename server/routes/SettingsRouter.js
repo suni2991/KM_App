@@ -132,7 +132,6 @@ settingsRouter.get("/getData", async (req, res) => {
 
 settingsRouter.get("/topics/:category", authenticate, async (req, res) => {
   const { category } = req.params;
-  // console.log("category Hi.");
   
   try {
     let topics;
