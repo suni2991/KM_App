@@ -130,15 +130,9 @@ const shuffleArray = (array) => {
 questionRouter.get("/questions/:topic", authenticate, async (req, res) => {
   try {
     const { topic } = req.params;
-    console.log("topic");
-    console.log(topic);
     const { deleted } = req.query;
-    console.log("deleted");
-    console.log(deleted);
 
     const topicObject = await Settings.findOne({ topic: topic });
-    console.log("topicObject");
-    console.log(topicObject);
     let questionCount = topicObject.numberOfQuestions;
     console.log(questionCount);
 
@@ -146,14 +140,6 @@ questionRouter.get("/questions/:topic", authenticate, async (req, res) => {
     if (deleted !== undefined) {
       filter.deleted = deleted === 'true';
     }
-
-    // if (
-    //   topic === "informationSecurity" ||
-    //   topic === "unconsciousBias" ||
-    //   topic === "grammarPunctuation"
-    // ) {
-    //   questionCount = 20;
-    // }
 
     const questions = await Questionaire.find(filter).limit(questionCount);
 

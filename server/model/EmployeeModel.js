@@ -33,7 +33,7 @@ const employeeSchema = new mongoose.Schema({
       assessmentStatus: { type: String, default: "Not Attempted" },
       inductionStatus: { type: String, default: "Not Received" },
       presenter: { type: String },
-      emailSent: { type: Boolean, default: false },
+      emailSent: { type: Boolean, default: true },
       wrongAnswers: [
         {
           question: { type: String, required: true },
@@ -46,6 +46,8 @@ const employeeSchema = new mongoose.Schema({
       ],
       history: [
         {
+        //  dateAssigned: {type: String},
+        //  timeAssigned: {type: String},
           score: { type: Number },
           comment: { type: String },
           date: { type: Date }
